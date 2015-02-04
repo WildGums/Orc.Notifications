@@ -49,7 +49,7 @@ namespace Orc.Notifications
 
             Log.Debug("Showing notification '{0}'", notification);
 
-            await _uiVisualizerService.ShowDialog<NotificationViewModel>(notification);
+            await _uiVisualizerService.Show<NotificationViewModel>(notification);
         }
         #endregion
     }
