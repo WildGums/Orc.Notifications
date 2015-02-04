@@ -7,6 +7,7 @@
 
 namespace Orc.Notifications
 {
+    using System.Collections.ObjectModel;
     using System.Threading.Tasks;
     using System.Windows.Media;
 
@@ -16,5 +17,6 @@ namespace Orc.Notifications
         SolidColorBrush DefaultBorderBrush { get; set; }
         SolidColorBrush DefaultBackgroundBrush { get; set; }
         SolidColorBrush DefaultFontBrush { get; set; }
+        ObservableCollection<INotification> CurrentNotifications { get; }
     }
 }

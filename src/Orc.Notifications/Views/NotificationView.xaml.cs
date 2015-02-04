@@ -7,6 +7,8 @@
 
 namespace Orc.Notifications
 {
+    using System.Drawing;
+    using Catel.IoC;
     using Catel.Windows;
 
     /// <summary>
@@ -14,6 +16,8 @@ namespace Orc.Notifications
     /// </summary>
     public partial class NotificationView
     {
+        private static readonly Size NotificationSize = new Size(Orc.Notifications.NotificationSize.Width, Orc.Notifications.NotificationSize.Height);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationView"/> class.
         /// </summary>
@@ -33,6 +37,15 @@ namespace Orc.Notifications
             : base(viewModel, DataWindowMode.Custom)
         {
             InitializeComponent();
+
+            var dependencyResolver = this.GetDependencyResolver();
+            var notificationPositionService = dependencyResolver.Resolve<INotificationPositionService>();
+
+            var notificationLocation = notificationPositionService.GetLeftTopCorner(NotificationSize);
+
+            WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+            Left = notificationLocation.X;
+            Top = notificationLocation.Y;
         }
     }
 }
