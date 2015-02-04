@@ -1,0 +1,30 @@
+﻿<catel:DataWindow x:Class="Orc.Notifications.NotificationView"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:catel="http://catel.codeplex.com"
+                  Topmost="True" CanCloseUsingEscape="False" WindowStyle="None">
+
+    <Border BorderThickness="1" BorderBrush="{Binding BorderBrush}" Background="{Binding BackgroundBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="75" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="250" />
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Row="0" Grid.Column="1">
+                <!-- TODO: Show app image here -->
+            </Image>
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" FontSize="16" FontWeight="Bold" 
+                       Foreground="{Binding FontBrush}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" TextWrapping="Wrap" 
+                       Foreground="{Binding FontBrush}" />
+        </Grid>
+    </Border>
+
+</catel:DataWindow>
