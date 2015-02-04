@@ -9,6 +9,7 @@ namespace Orc.Notifications
 {
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Media;
     using Catel;
     using Catel.Logging;
@@ -37,6 +38,20 @@ namespace Orc.Notifications
             DefaultBorderBrush = Brushes.Black;
             DefaultBackgroundBrush = Brushes.DodgerBlue;
             DefaultFontBrush = Brushes.WhiteSmoke;
+
+            var app = Application.Current;
+            if (app != null)
+            {
+                var accentColorBrush = app.TryFindResource("AccentColorBrush") as SolidColorBrush;
+                if (accentColorBrush != null)
+                {
+
+                    DefaultBorderBrush = accentColorBrush;
+                    DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
+                    DefaultFontBrush = Brushes.Black;
+                    accentColorBrush.Color.CreateAccentColorResourceDictionary();
+                }
+            }
         }
         #endregion
 

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Views/MainView.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="AccentColorBrush" Color="#F19B39" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

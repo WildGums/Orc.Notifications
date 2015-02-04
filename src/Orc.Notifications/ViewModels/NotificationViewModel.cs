@@ -38,6 +38,9 @@ namespace Orc.Notifications
             BackgroundBrush = notification.BackgroundBrush ?? notificationService.DefaultBackgroundBrush;
             FontBrush = notification.FontBrush ?? notificationService.DefaultFontBrush;
             AppIcon = ExtractLargestIcon();
+
+            PauseTimer = new Command(OnPauseTimerExecute);
+            ResumeTimer = new Command(OnResumeTimerExecute);
         }
 
         #region Properties
@@ -56,6 +59,28 @@ namespace Orc.Notifications
         public SolidColorBrush FontBrush { get; private set; }
 
         public BitmapSource AppIcon { get; private set; }
+        #endregion
+
+        #region Commands
+        public Command PauseTimer { get; private set; }
+
+        private void OnPauseTimerExecute()
+        {
+            if (_dispatcherTimer != null)
+            {
+                _dispatcherTimer.Stop();
+            }
+        }
+
+        public Command ResumeTimer { get; private set; }
+
+        private void OnResumeTimerExecute()
+        {
+            if (_dispatcherTimer != null)
+            {
+                _dispatcherTimer.Start();
+            }
+        }
         #endregion
 
         #region Methods

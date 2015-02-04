@@ -16,17 +16,21 @@ namespace Orc.SupportPackage.Example.ViewModels
     using Catel;
     using Catel.IO;
     using Catel.MVVM;
+    using Catel.Services;
     using Notifications;
 
     public class MainViewModel : ViewModelBase
     {
         private readonly INotificationService _notificationService;
+        private readonly IMessageService _messageService;
 
-        public MainViewModel(INotificationService notificationService)
+        public MainViewModel(INotificationService notificationService, IMessageService messageService)
         {
             Argument.IsNotNull(() => notificationService);
+            Argument.IsNotNull(() => messageService);
 
             _notificationService = notificationService;
+            _messageService = messageService;
 
             ShowNotification = new Command(OnShowNotificationExecute, OnShowNotificationCanExecute);
         }
@@ -63,7 +67,8 @@ namespace Orc.SupportPackage.Example.ViewModels
             var notification = new Notification
             {
                 Title = NotificationTitle,
-                Message = NotificationMessage
+                Message = NotificationMessage,
+                Command = new Command(() => _messageService.Show("You just clicked a notification"))
             };
 
             _notificationService.ShowNotification(notification);

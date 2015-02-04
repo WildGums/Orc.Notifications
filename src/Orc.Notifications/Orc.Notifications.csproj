@@ -92,6 +92,7 @@
       <Link>Properties\SolutionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Models\Interfaces\INotification.cs" />
     <Compile Include="Models\Notification.cs" />
