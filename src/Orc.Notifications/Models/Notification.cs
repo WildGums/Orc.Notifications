@@ -10,13 +10,17 @@ namespace Orc.Notifications
     using System;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Catel;
 
     public class Notification : INotification
     {
         public Notification()
         {
+            Id = UniqueIdentifierHelper.GetUniqueIdentifier<Notification>();
             ShowTime = TimeSpan.FromSeconds(4);
         }
+
+        public int Id { get; private set; }
 
         public string Title { get; set; }
 

@@ -23,6 +23,7 @@ namespace Orc.Notifications
         {
             Argument.IsNotNull(() => notification);
 
+            Notification = notification;
             Title = notification.Title;
             Message = notification.Message;
             Command = notification.Command;
@@ -34,6 +35,8 @@ namespace Orc.Notifications
         }
 
         #region Properties
+        public INotification Notification { get; private set; }
+
         public string Message { get; private set; }
 
         public ICommand Command { get; private set; }

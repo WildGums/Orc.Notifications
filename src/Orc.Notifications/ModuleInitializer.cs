@@ -15,6 +15,7 @@ public static class ModuleInitializer
         var serviceLocator = ServiceLocator.Default;
 
         serviceLocator.RegisterType<INotificationService, NotificationService>();
+        serviceLocator.RegisterType<INotificationPositionService, RightTopNotificationPositionService>();
 
         var uiVisualizerService = serviceLocator.ResolveType<IUIVisualizerService>();
         uiVisualizerService.Register<NotificationViewModel, NotificationView>();
