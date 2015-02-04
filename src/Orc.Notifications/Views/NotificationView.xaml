@@ -16,14 +16,12 @@
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="1">
-                <!-- TODO: Show app image here -->
-            </Image>
-
+            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AppIcon}" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Stretch="Uniform" Margin="15" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" FontSize="16" FontWeight="Bold" 
-                       Foreground="{Binding FontBrush}" />
+                       Foreground="{Binding FontBrush}" Margin="10 15 10 0" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" TextWrapping="Wrap" 
-                       Foreground="{Binding FontBrush}" />
+                       Foreground="{Binding FontBrush}" Margin="10 15 10 0" />
         </Grid>
     </Border>
 

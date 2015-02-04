@@ -8,16 +8,21 @@
 namespace Orc.Notifications
 {
     using System;
+    using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Input;
     using System.Windows.Media;
+    using System.Windows.Media.Imaging;
     using System.Windows.Threading;
     using Catel;
     using Catel.MVVM;
+    using Catel.Reflection;
+    using Helpers;
 
     public class NotificationViewModel : ViewModelBase
     {
         private DispatcherTimer _dispatcherTimer;
+        private readonly Assembly _entryAssembly = AssemblyHelper.GetEntryAssembly();
 
         public NotificationViewModel(INotification notification, INotificationService notificationService)
         {
@@ -31,6 +36,7 @@ namespace Orc.Notifications
             BorderBrush = notification.BorderBrush ?? notificationService.DefaultBorderBrush;
             BackgroundBrush = notification.BackgroundBrush ?? notificationService.DefaultBackgroundBrush;
             FontBrush = notification.FontBrush ?? notificationService.DefaultFontBrush;
+            AppIcon = ExtractLargestIcon();
         }
 
         #region Properties
@@ -45,6 +51,8 @@ namespace Orc.Notifications
         public SolidColorBrush BackgroundBrush { get; private set; }
 
         public SolidColorBrush FontBrush { get; private set; }
+
+        public BitmapSource AppIcon { get; private set; }
         #endregion
 
         #region Methods
@@ -70,6 +78,11 @@ namespace Orc.Notifications
         private async void OnDispatcherTimerTick(object sender, EventArgs e)
         {
             await SaveAndCloseViewModel();
+        }
+
+        private BitmapImage ExtractLargestIcon()
+        {
+            return IconHelper.ExtractLargestIconFromFile(_entryAssembly.Location);
         }
         #endregion
     }
