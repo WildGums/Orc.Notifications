@@ -9,7 +9,7 @@ namespace Orc.Notifications
 {
     public static class NotificationSize
     {
-        public const int Width = 390;
-        public const int Height = 100;
+        public const int Width = 380;
+        public const int Height = 58;
     }
 }
