@@ -7,6 +7,8 @@
 
 namespace Orc.Notifications
 {
+    using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
     using System.Windows;
@@ -22,6 +24,8 @@ namespace Orc.Notifications
 
         private readonly IUIVisualizerService _uiVisualizerService;
         private readonly IDispatcherService _dispatcherService;
+
+        private readonly Queue<INotification> _notificationsQueue = new Queue<INotification>(); 
         #endregion
 
         #region Constructors
@@ -63,18 +67,53 @@ namespace Orc.Notifications
         public SolidColorBrush DefaultBackgroundBrush { get; set; }
 
         public SolidColorBrush DefaultFontBrush { get; set; }
+
+        public bool IsSuspended { get; private set; }
+        #endregion
+
+        #region Events
+        public event EventHandler<NotificationEventArgs> OpenedNotification;
+
+        public event EventHandler<NotificationEventArgs> ClosedNotification;
         #endregion
 
         #region Methods
+        public void Suspend()
+        {
+            IsSuspended = true;
+        }
+
+        public async Task Resume()
+        {
+            IsSuspended = false;
+
+            while (_notificationsQueue.Count > 0)
+            {
+                var notification = _notificationsQueue.Dequeue();
+                await ShowNotification(notification);
+            }
+        }
+
         public async Task ShowNotification(INotification notification)
         {
             Argument.IsNotNull(() => notification);
+
+            if (IsSuspended)
+            {
+                Log.Debug("Notifications are suspended, queueing notification");
+
+                _notificationsQueue.Enqueue(notification);
+
+                return;
+            }
 
             _dispatcherService.BeginInvoke(() =>
             {
                 Log.Debug("Showing notification '{0}'", notification);
 
                 _uiVisualizerService.Show<NotificationViewModel>(notification, OnNotificationClosed);
+
+                OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
 
                 CurrentNotifications.Add(notification);
             });
@@ -95,6 +134,8 @@ namespace Orc.Notifications
             if (notification != null)
             {
                 CurrentNotifications.Remove(notification);
+
+                ClosedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
             }
         }
         #endregion
