@@ -17,7 +17,7 @@ namespace Orc.Notifications
         public Notification()
         {
             Id = UniqueIdentifierHelper.GetUniqueIdentifier<Notification>();
-            ShowTime = TimeSpan.FromSeconds(4);
+            ShowTime = TimeSpan.FromSeconds(5);
         }
 
         public int Id { get; private set; }
