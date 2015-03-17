@@ -8,24 +8,20 @@
                   WindowStyle="None" Background="Transparent" AllowsTransparency="True"
                   x:Name="notificationWindow">
 
-<Window.Resources>
+    <Window.Resources>
         <system:Double x:Key="DefaultOpacity">0.8</system:Double>
     </Window.Resources>
-    
+
     <!--<Window.Effect>
         <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1.5"/>
     </Window.Effect>-->
 
     <Border BorderThickness="0.5" BorderBrush="WhiteSmoke" Opacity="0" Margin="20">
         <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseLeftButtonDown">
-                <i:InvokeCommandAction Command="{Binding Command}" />
-            </i:EventTrigger>
-
             <i:EventTrigger EventName="MouseEnter">
                 <i:InvokeCommandAction Command="{Binding PauseTimer}" />
             </i:EventTrigger>
-            
+
             <i:EventTrigger EventName="MouseLeave">
                 <i:InvokeCommandAction Command="{Binding ResumeTimer}" />
             </i:EventTrigger>
