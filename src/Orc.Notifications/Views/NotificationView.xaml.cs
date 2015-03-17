@@ -151,11 +151,18 @@ namespace Orc.Notifications
 
         private void ActivatePreviousWindow()
         {
-            var windowHandles = Application.Current.Windows;
-            if (windowHandles.Count > 1)
+            var currentWindows = Application.Current.Windows;
+            var count = currentWindows.Count - 1;
+            while (count >= 0)
             {
-                var lastWindowHandle = windowHandles[windowHandles.Count - 2];
-                lastWindowHandle.Activate();
+                var window = currentWindows[count--];
+                if (window is NotificationView)
+                {
+                    continue;
+                }
+
+                window.Activate();
+                return;
             }
         }
 
