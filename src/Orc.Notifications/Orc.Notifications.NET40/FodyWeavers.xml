@@ -2,6 +2,6 @@
 <Weavers VerifyAssembly="true">
   <ModuleInit/>
   <MethodTimer/>
-  <LoadAssembliesOnStartup/>
   <Catel/>
+  <LoadAssembliesOnStartup/>
 </Weavers>

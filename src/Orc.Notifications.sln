@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications", "Orc.Notifications\Orc.Notifications.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.NET40", "Orc.Notifications\Orc.Notifications.NET40\Orc.Notifications.NET40.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}"
 EndProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{199C8479-5A4
 		..\lib\repositories.config = ..\lib\repositories.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.Tests", "Orc.Notifications.Tests\Orc.Notifications.Tests.csproj", "{A226D12E-9802-4364-B4F3-2CAAAE059DD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.Tests.NET40", "Orc.Notifications.Tests\Orc.Notifications.Tests.NET40\Orc.Notifications.Tests.NET40.csproj", "{A226D12E-9802-4364-B4F3-2CAAAE059DD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.Example", "Orc.Notifications.Example\Orc.Notifications.Example.csproj", "{7C10CEE1-8FE8-412D-A91C-D2191138ED6B}"
 EndProject
@@ -29,7 +29,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{FCC9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AE5DC7A0-9585-45F3-85C4-C3CD41316EF1}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Notifications.Shared", "Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.shproj", "{3CBF7CB2-AB36-4238-94A1-F864737DA426}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Orc.Notifications.Tests.Shared", "Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.shproj", "{C42D41D3-9A26-478B-92CA-9FF12F5DFC96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.NET45", "Orc.Notifications\Orc.Notifications.NET45\Orc.Notifications.NET45.csproj", "{B3DFB0DF-0314-4952-A779-8094644B6FB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.Tests.NET45", "Orc.Notifications.Tests\Orc.Notifications.Tests.NET45\Orc.Notifications.Tests.NET45.csproj", "{5A25AC1D-7DF0-4EBF-8696-944D3173A6D5}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{5a25ac1d-7df0-4ebf-8696-944d3173a6d5}*SharedItemsImports = 4
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{c42d41d3-9a26-478b-92ca-9ff12f5dfc96}*SharedItemsImports = 13
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{a226d12e-9802-4364-b4f3-2caaae059dd4}*SharedItemsImports = 4
+		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{31ce78ce-896e-43b5-ae7e-a6a4b9944aa4}*SharedItemsImports = 4
+		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{b3dfb0df-0314-4952-a779-8094644b6fb2}*SharedItemsImports = 4
+		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{3cbf7cb2-ab36-4238-94a1-f864737da426}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -47,6 +63,14 @@ Global
 		{7C10CEE1-8FE8-412D-A91C-D2191138ED6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C10CEE1-8FE8-412D-A91C-D2191138ED6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C10CEE1-8FE8-412D-A91C-D2191138ED6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3DFB0DF-0314-4952-A779-8094644B6FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3DFB0DF-0314-4952-A779-8094644B6FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3DFB0DF-0314-4952-A779-8094644B6FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3DFB0DF-0314-4952-A779-8094644B6FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A25AC1D-7DF0-4EBF-8696-944D3173A6D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A25AC1D-7DF0-4EBF-8696-944D3173A6D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A25AC1D-7DF0-4EBF-8696-944D3173A6D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A25AC1D-7DF0-4EBF-8696-944D3173A6D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +82,9 @@ Global
 		{46427380-44B9-4AF3-8A1F-BB8E353511C7} = {E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}
 		{FCC9A205-2182-4525-A6FB-5011125482EF} = {E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}
 		{AE5DC7A0-9585-45F3-85C4-C3CD41316EF1} = {E426EAD0-F378-4A3D-9BCD-E42CED54EEC7}
+		{3CBF7CB2-AB36-4238-94A1-F864737DA426} = {46427380-44B9-4AF3-8A1F-BB8E353511C7}
+		{C42D41D3-9A26-478B-92CA-9FF12F5DFC96} = {AE5DC7A0-9585-45F3-85C4-C3CD41316EF1}
+		{B3DFB0DF-0314-4952-A779-8094644B6FB2} = {46427380-44B9-4AF3-8A1F-BB8E353511C7}
+		{5A25AC1D-7DF0-4EBF-8696-944D3173A6D5} = {AE5DC7A0-9585-45F3-85C4-C3CD41316EF1}
 	EndGlobalSection
 EndGlobal
