@@ -1,17 +1,19 @@
-# Orc.Notifications
+Orc.Notifications
+==================
 
-Allows the user to show desktop notifications. Notification looks like popup window on top right corner of the screen
+This library is used to create and display desktop notifications. Notification looks like popup windows and will appear on the top right corner of the screen.
+
+Notifications can be used to breifly display important information to the user.
 
 ![Notifications 01](doc/images/Notifications_01.png)
 
-for showing this notification use service:
+In order to create notifications in your application use IOC with the **INotificationService** interface.
 
-* **INotificationService** 
+A default **Notification** class, which implements the **INotification** interface is provided.
 
-for configuring notification used **Notification** class, which is implementes interface **INotification**
-
-	public interface INotification
-    {
+```c#
+public interface INotification
+{
         string Title { get; set; }
         string Message { get; set; }
         ICommand Command { get; set; }
@@ -19,8 +21,8 @@ for configuring notification used **Notification** class, which is implementes i
         SolidColorBrush BorderBrush { get; set; }
         SolidColorBrush BackgroundBrush { get; set; }
         SolidColorBrush FontBrush { get; set; }
-    }
-
+}
+```
 
 
 
