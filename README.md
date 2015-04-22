@@ -1,6 +1,8 @@
 Orc.Notifications
 ==================
 
+[![Join the chat at https://gitter.im/WildGums/Orc.Notifications](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/WildGums/Orc.Notifications?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This library is used to create and display desktop notifications. Notification looks like popup windows and will appear on the top right corner of the screen.
 
 Notifications can be used to breifly display important information to the user.
