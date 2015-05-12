@@ -12,26 +12,20 @@ namespace Orc.Notifications
 
     public class RightTopNotificationPositionService : INotificationPositionService
     {
-        private readonly INotificationService _notificationService;
-
         private const int Margin = 15;
 
-        public RightTopNotificationPositionService(INotificationService notificationService)
+        public RightTopNotificationPositionService()
         {
-            Argument.IsNotNull(() => notificationService);
-
-            _notificationService = notificationService;
         }
 
-        public virtual Point GetLeftTopCorner(Size notificationSize)
+        public virtual Point GetLeftTopCorner(Size notificationSize, int numberOfNotifications)
         {
             var workArea = System.Windows.SystemParameters.WorkArea;
 
             var top = workArea.Top + Margin;
             var right = workArea.Right - Margin;
 
-            var notificationCount = _notificationService.CurrentNotifications.Count;
-            for (var i = 0; i < notificationCount; i++)
+            for (var i = 0; i < numberOfNotifications; i++)
             {
                 top += notificationSize.Height;
                 top += Margin;

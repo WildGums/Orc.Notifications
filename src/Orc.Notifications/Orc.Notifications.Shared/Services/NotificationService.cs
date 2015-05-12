@@ -10,32 +10,44 @@ namespace Orc.Notifications
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Media;
     using Catel;
     using Catel.Logging;
+    using Catel.MVVM;
     using Catel.Services;
+    using Size = System.Drawing.Size;
 
     public class NotificationService : INotificationService
     {
         #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-        private readonly IUIVisualizerService _uiVisualizerService;
-        private readonly IDispatcherService _dispatcherService;
+        private static readonly Size NotificationSize = new Size(Orc.Notifications.NotificationSize.Width, Orc.Notifications.NotificationSize.Height);
 
-        private readonly Queue<INotification> _notificationsQueue = new Queue<INotification>(); 
+        private readonly IViewModelFactory _viewModelFactory;
+        private readonly IDispatcherService _dispatcherService;
+        private readonly INotificationPositionService _notificationPositionService;
+
+        private readonly Queue<INotification> _notificationsQueue = new Queue<INotification>();
+
+        private Window _mainWindow;
         #endregion
 
         #region Constructors
-        public NotificationService(IUIVisualizerService uiVisualizerService, IDispatcherService dispatcherService)
+        public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService,
+            INotificationPositionService notificationPositionService)
         {
-            Argument.IsNotNull(() => uiVisualizerService);
+            Argument.IsNotNull(() => viewModelFactory);
             Argument.IsNotNull(() => dispatcherService);
+            Argument.IsNotNull(() => notificationPositionService);
 
-            _uiVisualizerService = uiVisualizerService;
+            _viewModelFactory = viewModelFactory;
             _dispatcherService = dispatcherService;
+            _notificationPositionService = notificationPositionService;
 
             CurrentNotifications = new ObservableCollection<INotification>();
 
@@ -49,12 +61,13 @@ namespace Orc.Notifications
                 var accentColorBrush = app.TryFindResource("AccentColorBrush") as SolidColorBrush;
                 if (accentColorBrush != null)
                 {
-
                     DefaultBorderBrush = accentColorBrush;
                     DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
                     DefaultFontBrush = Brushes.Black;
                     accentColorBrush.Color.CreateAccentColorResourceDictionary();
                 }
+
+                _mainWindow = app.MainWindow;
             }
         }
         #endregion
@@ -107,11 +120,31 @@ namespace Orc.Notifications
                 return;
             }
 
+            EnsureMainWindow();
+
             _dispatcherService.BeginInvoke(() =>
             {
                 Log.Debug("Showing notification '{0}'", notification);
 
-                _uiVisualizerService.Show<NotificationViewModel>(notification, OnNotificationClosed);
+                var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
+
+                var popup = new Popup();
+
+                popup.AllowsTransparency = true;
+                popup.Placement = PlacementMode.AbsolutePoint;
+                popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
+
+                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification);
+                notificationViewModel.Closed += (sender, e) => popup.IsOpen = false;
+
+                // TODO: consider factory
+                var notificationView = new NotificationView();
+                notificationView.DataContext = notificationViewModel;
+                notificationView.Unloaded += OnNotificationViewUnloaded;
+
+                popup.Child = notificationView;
+
+                popup.IsOpen = true;
 
                 OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
 
@@ -119,12 +152,41 @@ namespace Orc.Notifications
             });
         }
 
-        private void OnNotificationClosed(object sender, UICompletedEventArgs e)
+        private void EnsureMainWindow()
         {
-            var notification = e.DataContext as INotification;
+            if (_mainWindow != null)
+            {
+                return;
+            }
+
+            var application = Application.Current;
+            if (application != null)
+            {
+                _mainWindow = application.MainWindow;
+                if (_mainWindow != null)
+                {
+                    _mainWindow.Closing += OnMainWindowClosing;
+                }
+            }
+        }
+
+        private void OnNotificationViewUnloaded(object sender, EventArgs e)
+        {
+            var notificationControl = sender as NotificationView;
+            if (notificationControl == null)
+            {
+                return;
+            }
+
+            var notification = notificationControl.DataContext as INotification;
             if (notification == null)
             {
-                var notificationViewModel = e.DataContext as NotificationViewModel;
+                var notificationViewModel = notificationControl.DataContext as NotificationViewModel;
+                if (notificationViewModel == null)
+                {
+                    notificationViewModel = notificationControl.ViewModel as NotificationViewModel;
+                }
+
                 if (notificationViewModel != null)
                 {
                     notification = notificationViewModel.Notification;
@@ -137,6 +199,11 @@ namespace Orc.Notifications
 
                 ClosedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
             }
+        }
+
+        private void OnMainWindowClosing(object sender, CancelEventArgs e)
+        {
+            // todo: close main window
         }
         #endregion
     }

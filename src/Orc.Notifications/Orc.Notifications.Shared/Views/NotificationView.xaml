@@ -1,16 +1,14 @@
-﻿<catel:DataWindow x:Class="Orc.Notifications.NotificationView"
+﻿<catel:UserControl x:Class="Orc.Notifications.NotificationView"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:catel="http://catel.codeplex.com"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   xmlns:system="clr-namespace:System;assembly=mscorlib"
-                  Topmost="True" CanCloseUsingEscape="False" 
-                  WindowStyle="None" Background="Transparent" AllowsTransparency="True"
                   x:Name="notificationWindow">
 
-    <Window.Resources>
+    <UserControl.Resources>
         <system:Double x:Key="DefaultOpacity">0.8</system:Double>
-    </Window.Resources>
+    </UserControl.Resources>
 
     <!--<Window.Effect>
         <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1.5"/>
@@ -28,7 +26,7 @@
         </i:Interaction.Triggers>
 
         <Border.Triggers>
-            <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
                         <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
@@ -56,7 +54,7 @@
                 </BeginStoryboard>
             </EventTrigger>
 
-            <EventTrigger RoutedEvent="Window.Unloaded">
+            <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
                         <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
@@ -88,4 +86,4 @@
         </Border>
     </Border>
 
-</catel:DataWindow>
+</catel:UserControl>

@@ -11,6 +11,6 @@ namespace Orc.Notifications
 
     public interface INotificationPositionService
     {
-        Point GetLeftTopCorner(Size notificationSize);
+        Point GetLeftTopCorner(Size notificationSize, int numberOfNotifications);
     }
 }
