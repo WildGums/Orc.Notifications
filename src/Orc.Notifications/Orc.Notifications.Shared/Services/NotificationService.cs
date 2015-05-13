@@ -134,7 +134,10 @@ namespace Orc.Notifications
                 popup.Placement = PlacementMode.Custom;
                 popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
                 {
-                    var popupPlacement = new CustomPopupPlacement(new Point(notificationLocation.X, notificationLocation.Y), PopupPrimaryAxis.None);
+                    var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
+                    var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
+
+                    var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
 
                     var ttplaces = new [] { popupPlacement };
                     return ttplaces;
