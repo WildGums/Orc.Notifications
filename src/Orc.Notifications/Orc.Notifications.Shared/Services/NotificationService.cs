@@ -131,8 +131,17 @@ namespace Orc.Notifications
                 var popup = new Popup();
 
                 popup.AllowsTransparency = true;
-                popup.Placement = PlacementMode.AbsolutePoint;
-                popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
+                popup.Placement = PlacementMode.Custom;
+                popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
+                {
+                    var popupPlacement = new CustomPopupPlacement(new Point(notificationLocation.X, notificationLocation.Y), PopupPrimaryAxis.None);
+
+                    var ttplaces = new [] { popupPlacement };
+                    return ttplaces;
+                };
+
+                //popup.Placement = PlacementMode.AbsolutePoint;
+                //popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
 
                 var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification);
                 notificationViewModel.Closed += (sender, e) => popup.IsOpen = false;
