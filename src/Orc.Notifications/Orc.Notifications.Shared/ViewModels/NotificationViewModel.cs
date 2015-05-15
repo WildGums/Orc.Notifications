@@ -41,7 +41,10 @@ namespace Orc.Notifications
 
             PauseTimer = new Command(OnPauseTimerExecute);
             ResumeTimer = new Command(OnResumeTimerExecute);
+            ClosePopup = new TaskCommand(OnClosePopupExecute);
         }
+
+        
 
         #region Properties
         public INotification Notification { get; private set; }
@@ -62,6 +65,13 @@ namespace Orc.Notifications
         #endregion
 
         #region Commands
+        public TaskCommand ClosePopup { get; private set; }
+
+        private async Task OnClosePopupExecute()
+        {
+            await CloseViewModel(null);
+        }
+
         public Command PauseTimer { get; private set; }
 
         private void OnPauseTimerExecute()

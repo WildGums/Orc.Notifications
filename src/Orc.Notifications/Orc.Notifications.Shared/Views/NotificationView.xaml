@@ -66,22 +66,65 @@
         <Border x:Name="Border" BorderThickness="1.5" BorderBrush="LightGray" Background="{Binding BackgroundBrush}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="45" />
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="14"/>
+                    <RowDefinition MinHeight="45"  />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="285" />
+                    <ColumnDefinition Width="252" />
+                    <ColumnDefinition Width="16"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AppIcon}" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" Stretch="Uniform" Margin="2 2 8 2"  />
+                <Image Grid.Row="2" Grid.Column="0" Source="{Binding AppIcon}" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" Stretch="Uniform" Margin="22,8,28,37" Height="0" Width="0"  />
+                
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" FontSize="14" FontWeight="Medium" 
-                           Foreground="{Binding FontBrush}" Margin="0 10 10 0" HorizontalAlignment="Left" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" HorizontalAlignment="Stretch"
+                           Foreground="{Binding FontBrush}" Margin="0,10,0,0" HorizontalAlignment="Left" Width="0" Grid.RowSpan="2" />
+                
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Message}" HorizontalAlignment="Stretch"
                            VerticalAlignment="Top" TextWrapping="Wrap" 
-                           Foreground="{Binding FontBrush}" Margin="0 5 10 0" />
+                           Foreground="{Binding FontBrush}" Margin="0 5 10 0" Grid.ColumnSpan="2" Height="16" />
+                
+                <Button Grid.Column="2" Grid.Row="0" Command="{Binding ClosePopup}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Path HorizontalAlignment="Center" Margin="3" 
+                                  Stroke="Gray" StrokeThickness="2"
+                                  SnapsToDevicePixels="True" Stretch="Fill"
+                                  UseLayoutRounding="True" 
+                                  VerticalAlignment="Center">
+                                <Path.Triggers>
+                                    <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard SpeedRatio="10">
+                                                <DoubleAnimation To="3" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard SpeedRatio="10">
+                                                <DoubleAnimation To="2" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Path.Triggers>
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="0,0">
+                                            <LineSegment Point="14,14"/>
+                                        </PathFigure>
+                                        <PathFigure StartPoint="14,0">
+                                            <LineSegment Point="0,14"/>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
         </Border>
     </Border>
