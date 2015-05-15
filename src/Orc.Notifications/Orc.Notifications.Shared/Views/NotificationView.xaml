@@ -65,38 +65,38 @@
 
         <Border x:Name="Border" BorderThickness="1.5" BorderBrush="LightGray" Background="{Binding BackgroundBrush}">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="16" />
-                    <RowDefinition Height="14"/>
-                    <RowDefinition MinHeight="45"  />
-                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition MinHeight="45"  />
+                    </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="252" />
-                    <ColumnDefinition Width="16"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="268" />
+                    </Grid.ColumnDefinitions>
 
-                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Source="{Binding AppIcon}" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" Stretch="Uniform"   />
-                
-                <TextBlock Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  Text="{Binding Title}" FontSize="14" FontWeight="Medium" 
-                           Foreground="{Binding FontBrush}" Margin="0,10,0,0" HorizontalAlignment="Left" />
+                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AppIcon}" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" Stretch="Uniform" Margin="2 2 8 2"/>
 
-                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Message}" HorizontalAlignment="Stretch"
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" FontSize="14" FontWeight="Medium" 
+                           Foreground="{Binding FontBrush}" Margin="0 10 10 0" HorizontalAlignment="Left" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" HorizontalAlignment="Stretch"
                            VerticalAlignment="Top" TextWrapping="Wrap" 
                            Foreground="{Binding FontBrush}" Margin="0 5 10 0"  Height="16" />
+                </Grid>
                 
-                <Button Grid.Column="2" Grid.Row="0" Command="{Binding ClosePopup}">
+                <Button Command="{Binding ClosePopup}" Height="16" Width="16" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
                                 <Canvas Background="Transparent"/>
                                 <Path HorizontalAlignment="Center" Margin="2" 
-                                  Stroke="Gray" StrokeThickness="2"
-                                  SnapsToDevicePixels="True" Stretch="Fill"
-                                  UseLayoutRounding="True" 
-                                  VerticalAlignment="Center">
+                                      Stroke="Gray" StrokeThickness="2"
+                                      SnapsToDevicePixels="True" Stretch="Fill"
+                                      UseLayoutRounding="True" 
+                                      VerticalAlignment="Center">
                                     <Path.Triggers>
                                         <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
                                             <BeginStoryboard>
@@ -131,5 +131,5 @@
             </Grid>
         </Border>
     </Border>
-
+    
 </catel:UserControl>
