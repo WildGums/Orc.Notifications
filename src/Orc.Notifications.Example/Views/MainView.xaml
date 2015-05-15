@@ -9,6 +9,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -21,6 +22,8 @@
 
         <Label Content="Message" />
         <TextBox Text="{Binding NotificationMessage}" AcceptsReturn="True" Height="50" />
+        
+        <CheckBox Grid.ColumnSpan="2" Content="Is closable" IsChecked="{Binding IsClosable}"/>
         
         <Button Content="Show notification" Command="{Binding ShowNotification}" />
         

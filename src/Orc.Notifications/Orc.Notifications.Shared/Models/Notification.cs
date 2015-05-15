@@ -8,6 +8,7 @@
 namespace Orc.Notifications
 {
     using System;
+    using System.ComponentModel;
     using System.Windows.Input;
     using System.Windows.Media;
     using Catel;
@@ -35,6 +36,8 @@ namespace Orc.Notifications
         public SolidColorBrush BackgroundBrush { get; set; }
 
         public SolidColorBrush FontBrush { get; set; }
+
+        public bool IsClosable { get; set; }
 
         public override string ToString()
         {

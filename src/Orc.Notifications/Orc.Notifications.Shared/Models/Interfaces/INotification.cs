@@ -20,5 +20,6 @@ namespace Orc.Notifications
         SolidColorBrush BorderBrush { get; set; }
         SolidColorBrush BackgroundBrush { get; set; }
         SolidColorBrush FontBrush { get; set; }
+        bool IsClosable { get; set; }
     }
 }

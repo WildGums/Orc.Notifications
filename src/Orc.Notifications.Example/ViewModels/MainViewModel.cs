@@ -41,6 +41,9 @@ namespace Orc.SupportPackage.Example.ViewModels
 
         [DefaultValue("Showing a message using notifications is really cool")]
         public string NotificationMessage { get; set; }
+
+        [DefaultValue(true)]
+        public bool IsClosable { get; set; }
         #endregion
 
         #region Commands
@@ -68,7 +71,8 @@ namespace Orc.SupportPackage.Example.ViewModels
             {
                 Title = NotificationTitle,
                 Message = NotificationMessage,
-                Command = new Command(() => _messageService.Show("You just clicked a notification"))
+                Command = new Command(() => _messageService.Show("You just clicked a notification")),
+                IsClosable = IsClosable
             };
 
             _notificationService.ShowNotification(notification);

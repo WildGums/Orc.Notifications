@@ -87,7 +87,8 @@
                            Foreground="{Binding FontBrush}" Margin="0 5 10 0"  Height="16" />
                 </Grid>
                 
-                <Button Command="{Binding ClosePopup}" Height="16" Width="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button Command="{Binding ClosePopup}" Height="16" Width="16" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Visibility="{Binding IsClosable, Converter={catel:BooleanToHidingVisibilityConverter}}">
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>

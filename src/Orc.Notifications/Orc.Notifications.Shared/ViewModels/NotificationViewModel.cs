@@ -15,6 +15,7 @@ namespace Orc.Notifications
     using System.Windows.Media.Imaging;
     using System.Windows.Threading;
     using Catel;
+    using Catel.Fody;
     using Catel.MVVM;
     using Catel.Reflection;
     using Helpers;
@@ -29,6 +30,7 @@ namespace Orc.Notifications
             Argument.IsNotNull(() => notification);
 
             Notification = notification;
+            IsClosable = notification.IsClosable;
             Title = notification.Title;
             Message = notification.Message;
             Command = notification.Command;
@@ -48,6 +50,8 @@ namespace Orc.Notifications
 
         #region Properties
         public INotification Notification { get; private set; }
+
+        public bool IsClosable { get; private set; }
 
         public string Message { get; private set; }
 
