@@ -90,38 +90,41 @@
                 <Button Grid.Column="2" Grid.Row="0" Command="{Binding ClosePopup}">
                     <Button.Template>
                         <ControlTemplate>
-                            <Path HorizontalAlignment="Center" Margin="3" 
+                            <Grid>
+                                <Canvas Background="Transparent"/>
+                                <Path HorizontalAlignment="Center" Margin="2" 
                                   Stroke="Gray" StrokeThickness="2"
                                   SnapsToDevicePixels="True" Stretch="Fill"
                                   UseLayoutRounding="True" 
                                   VerticalAlignment="Center">
-                                <Path.Triggers>
-                                    <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
-                                        <BeginStoryboard>
-                                            <Storyboard SpeedRatio="10">
-                                                <DoubleAnimation To="3" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
-                                        <BeginStoryboard>
-                                            <Storyboard SpeedRatio="10">
-                                                <DoubleAnimation To="2" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Path.Triggers>
-                                <Path.Data>
-                                    <PathGeometry>
-                                        <PathFigure StartPoint="0,0">
-                                            <LineSegment Point="14,14"/>
-                                        </PathFigure>
-                                        <PathFigure StartPoint="14,0">
-                                            <LineSegment Point="0,14"/>
-                                        </PathFigure>
-                                    </PathGeometry>
-                                </Path.Data>
-                            </Path>
+                                    <Path.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
+                                            <BeginStoryboard>
+                                                <Storyboard SpeedRatio="10">
+                                                    <DoubleAnimation To="3" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
+                                            <BeginStoryboard>
+                                                <Storyboard SpeedRatio="10">
+                                                    <DoubleAnimation To="2" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Path.Triggers>
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="14,14"/>
+                                            </PathFigure>
+                                            <PathFigure StartPoint="14,0">
+                                                <LineSegment Point="0,14"/>
+                                            </PathFigure>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
