@@ -19,6 +19,7 @@ namespace Orc.Notifications
         {
             Id = UniqueIdentifierHelper.GetUniqueIdentifier<Notification>();
             ShowTime = TimeSpan.FromSeconds(5);
+            IsClosable = true;
         }
 
         public int Id { get; private set; }
