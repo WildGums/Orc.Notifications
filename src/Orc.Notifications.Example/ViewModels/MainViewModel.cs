@@ -7,14 +7,8 @@
 
 namespace Orc.SupportPackage.Example.ViewModels
 {
-    using System;
     using System.ComponentModel;
-    using System.Drawing.Imaging;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Media.Imaging;
     using Catel;
-    using Catel.IO;
     using Catel.MVVM;
     using Catel.Services;
     using Notifications;

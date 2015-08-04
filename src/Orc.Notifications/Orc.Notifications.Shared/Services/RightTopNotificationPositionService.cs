@@ -8,7 +8,6 @@
 namespace Orc.Notifications
 {
     using System.Drawing;
-    using Catel;
 
     public class RightTopNotificationPositionService : INotificationPositionService
     {

@@ -7,12 +7,11 @@
 
 namespace Orc.Notifications
 {
-    using System.Threading.Tasks;
     using Catel;
 
     public static class INotificationServiceExtensions
     {
-        public static async Task ShowNotification(this INotificationService notificationService, string title, string message)
+        public static void ShowNotification(this INotificationService notificationService, string title, string message)
         {
             Argument.IsNotNull(() => notificationService);
 
@@ -22,7 +21,7 @@ namespace Orc.Notifications
                 Message = message
             };
 
-            await notificationService.ShowNotification(notification);
+            notificationService.ShowNotification(notification);
         }
     }
 }

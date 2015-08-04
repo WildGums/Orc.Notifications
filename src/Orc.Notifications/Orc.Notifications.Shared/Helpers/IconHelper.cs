@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DpiHelper.cs" company="Wild Gums">
+//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Orc.Notifications.Helpers
+
+namespace Orc.Notifications
 {
     using System.ComponentModel;
     using System.Drawing;
@@ -16,6 +18,10 @@ namespace Orc.Notifications.Helpers
     using System.Windows.Media.Imaging;
     using Catel;
     using Point = System.Drawing.Point;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     internal static class IconHelper
     {
@@ -40,6 +46,7 @@ namespace Orc.Notifications.Helpers
                 var bitmap = ExtractIcon(icon);
                 return ToBitmapImageWithTransparency(bitmap);
             }
+
             return ToBitmapImageWithTransparency(vistaIcon);
         }
 

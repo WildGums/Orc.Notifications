@@ -9,7 +9,6 @@ namespace Orc.Notifications
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Threading.Tasks;
     using System.Windows.Media;
 
     public interface INotificationService
@@ -24,7 +23,7 @@ namespace Orc.Notifications
         event EventHandler<NotificationEventArgs> ClosedNotification;
 
         void Suspend();
-        Task Resume();
-        Task ShowNotification(INotification notification);
+        void Resume();
+        void ShowNotification(INotification notification);
     }
 }

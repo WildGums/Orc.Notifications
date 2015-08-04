@@ -15,10 +15,8 @@ namespace Orc.Notifications
     using System.Windows.Media.Imaging;
     using System.Windows.Threading;
     using Catel;
-    using Catel.Fody;
     using Catel.MVVM;
     using Catel.Reflection;
-    using Helpers;
 
     public class NotificationViewModel : ViewModelBase
     {
@@ -43,10 +41,8 @@ namespace Orc.Notifications
 
             PauseTimer = new Command(OnPauseTimerExecute);
             ResumeTimer = new Command(OnResumeTimerExecute);
-            ClosePopup = new TaskCommand(OnClosePopupExecute);
+            ClosePopup = new TaskCommand(OnClosePopupExecuteAsync);
         }
-
-        
 
         #region Properties
         public INotification Notification { get; private set; }
@@ -71,7 +67,7 @@ namespace Orc.Notifications
         #region Commands
         public TaskCommand ClosePopup { get; private set; }
 
-        private async Task OnClosePopupExecute()
+        private async Task OnClosePopupExecuteAsync()
         {
             await CloseViewModel(null);
         }
@@ -98,9 +94,9 @@ namespace Orc.Notifications
         #endregion
 
         #region Methods
-        protected override async Task Initialize()
+        protected override async Task InitializeAsync()
         {
-            await base.Initialize();
+            await base.InitializeAsync();
 
             _dispatcherTimer = new DispatcherTimer();
             _dispatcherTimer.Interval = ShowTime;
@@ -108,13 +104,13 @@ namespace Orc.Notifications
             _dispatcherTimer.Start();
         }
 
-        protected override async Task Close()
+        protected override async Task CloseAsync()
         {
             _dispatcherTimer.Stop();
             _dispatcherTimer.Tick -= OnDispatcherTimerTick;
             _dispatcherTimer = null;
 
-            await base.Close();
+            await base.CloseAsync();
         }
 
         private async void OnDispatcherTimerTick(object sender, EventArgs e)

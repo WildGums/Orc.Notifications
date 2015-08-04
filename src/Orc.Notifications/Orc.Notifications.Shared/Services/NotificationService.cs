@@ -11,7 +11,6 @@ namespace Orc.Notifications
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
@@ -96,18 +95,18 @@ namespace Orc.Notifications
             IsSuspended = true;
         }
 
-        public async Task Resume()
+        public void Resume()
         {
             IsSuspended = false;
 
             while (_notificationsQueue.Count > 0)
             {
                 var notification = _notificationsQueue.Dequeue();
-                await ShowNotification(notification);
+                ShowNotification(notification);
             }
         }
 
-        public async Task ShowNotification(INotification notification)
+        public void ShowNotification(INotification notification)
         {
             Argument.IsNotNull(() => notification);
 
