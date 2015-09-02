@@ -146,7 +146,7 @@ namespace Orc.Notifications
                 //popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
 
                 var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification);
-                notificationViewModel.Closed += (sender, e) => popup.IsOpen = false;
+                notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
 
                 // TODO: consider factory
                 var notificationView = new NotificationView();

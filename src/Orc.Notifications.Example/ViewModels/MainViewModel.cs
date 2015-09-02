@@ -65,7 +65,7 @@ namespace Orc.SupportPackage.Example.ViewModels
             {
                 Title = NotificationTitle,
                 Message = NotificationMessage,
-                Command = new Command(() => _messageService.Show("You just clicked a notification")),
+                Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
                 IsClosable = IsClosable
             };
 

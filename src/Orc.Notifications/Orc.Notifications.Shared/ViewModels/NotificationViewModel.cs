@@ -69,7 +69,7 @@ namespace Orc.Notifications
 
         private async Task OnClosePopupExecuteAsync()
         {
-            await CloseViewModel(null);
+            await CloseViewModelAsync(null);
         }
 
         public Command PauseTimer { get; private set; }
@@ -115,7 +115,7 @@ namespace Orc.Notifications
 
         private async void OnDispatcherTimerTick(object sender, EventArgs e)
         {
-            await SaveAndCloseViewModel();
+            await this.SaveAndCloseViewModelAsync();
         }
 
         private BitmapImage ExtractLargestIcon()
