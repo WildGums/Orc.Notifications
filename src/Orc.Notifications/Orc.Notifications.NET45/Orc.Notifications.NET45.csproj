@@ -38,25 +38,25 @@
     <DocumentationFile>..\..\..\output\release\NET45\Orc.Notifications\Orc.Notifications.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Catel.Core, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Catel.Core, Version=4.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\Catel.Core.4.2.0\lib\net45\Catel.Core.dll</HintPath>
+      <HintPath>..\..\..\lib\Catel.Core.4.4.0\lib\net45\Catel.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Catel.Fody.Attributes, Version=2.8.0.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
+    <Reference Include="Catel.Fody.Attributes, Version=2.12.0.0, Culture=neutral, PublicKeyToken=1c8163524cbe02e6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\Catel.Fody.2.8.0\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
+      <HintPath>..\..\..\lib\Catel.Fody.2.12.0\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Catel.MVVM, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Catel.MVVM, Version=4.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\Catel.MVVM.4.2.0\lib\net45\Catel.MVVM.dll</HintPath>
+      <HintPath>..\..\..\lib\Catel.MVVM.4.4.0\lib\net45\Catel.MVVM.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MethodTimer, Version=1.15.7.0, Culture=neutral, PublicKeyToken=cb1364609f40a1dc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\MethodTimer.Fody.1.15.7.0\lib\dotnet\MethodTimer.dll</HintPath>
+    <Reference Include="MethodTimer">
+      <HintPath>..\..\..\lib\MethodTimer.Fody.1.15.8.0\lib\dotnet\MethodTimer.dll</HintPath>
       <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -64,7 +64,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\lib\Catel.MVVM.4.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\..\lib\Catel.MVVM.4.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
@@ -75,14 +75,42 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Orc.Notifications.Shared\Properties\Resources.de.resx">
+      <Link>Properties\Resources.de.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Notifications.Shared\Properties\Resources.es.resx">
+      <Link>Properties\Resources.es.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Notifications.Shared\Properties\Resources.fr.resx">
+      <Link>Properties\Resources.fr.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Notifications.Shared\Properties\Resources.nl.resx">
+      <Link>Properties\Resources.nl.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Notifications.Shared\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.NET45.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Orc.Notifications.Shared\Properties\Resources.ru.resx">
+      <Link>Properties\Resources.ru.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Orc.Notifications.Shared\Properties\Resources.NET45.Designer.cs">
+      <Link>Properties\Resources.NET45.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="..\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -92,11 +120,13 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\lib\Fody.1.29.3\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\lib\Fody.1.29.3\build\dotnet\Fody.targets'))" />
-    <Error Condition="!Exists('..\..\..\lib\MethodTimer.Fody.1.15.7.0\build\dotnet\MethodTimer.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\lib\MethodTimer.Fody.1.15.7.0\build\dotnet\MethodTimer.Fody.targets'))" />
     <Error Condition="!Exists('..\..\..\lib\ModuleInit.Fody.1.5.8.0\build\dotnet\ModuleInit.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\lib\ModuleInit.Fody.1.5.8.0\build\dotnet\ModuleInit.Fody.targets'))" />
+    <Error Condition="!Exists('..\..\..\lib\Catel.Fody.2.12.0\build\dotnet\Catel.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\lib\Catel.Fody.2.12.0\build\dotnet\Catel.Fody.targets'))" />
+    <Error Condition="!Exists('..\..\..\lib\MethodTimer.Fody.1.15.8.0\build\dotnet\MethodTimer.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\lib\MethodTimer.Fody.1.15.8.0\build\dotnet\MethodTimer.Fody.targets'))" />
   </Target>
-  <Import Project="..\..\..\lib\MethodTimer.Fody.1.15.7.0\build\dotnet\MethodTimer.Fody.targets" Condition="Exists('..\..\..\lib\MethodTimer.Fody.1.15.7.0\build\dotnet\MethodTimer.Fody.targets')" />
   <Import Project="..\..\..\lib\ModuleInit.Fody.1.5.8.0\build\dotnet\ModuleInit.Fody.targets" Condition="Exists('..\..\..\lib\ModuleInit.Fody.1.5.8.0\build\dotnet\ModuleInit.Fody.targets')" />
+  <Import Project="..\..\..\lib\Catel.Fody.2.12.0\build\dotnet\Catel.Fody.targets" Condition="Exists('..\..\..\lib\Catel.Fody.2.12.0\build\dotnet\Catel.Fody.targets')" />
+  <Import Project="..\..\..\lib\MethodTimer.Fody.1.15.8.0\build\dotnet\MethodTimer.Fody.targets" Condition="Exists('..\..\..\lib\MethodTimer.Fody.1.15.8.0\build\dotnet\MethodTimer.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

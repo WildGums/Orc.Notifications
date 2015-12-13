@@ -1,5 +1,6 @@
 ﻿using Catel.IoC;
 using Catel.Services;
+using Catel.Services.Models;
 using Orc.Notifications;
 
 /// <summary>
@@ -19,5 +20,8 @@ public static class ModuleInitializer
 
         var uiVisualizerService = serviceLocator.ResolveType<IUIVisualizerService>();
         uiVisualizerService.Register<NotificationViewModel, NotificationView>();
+
+        var languageService = serviceLocator.ResolveType<ILanguageService>();
+        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Notifications", "Orc.Notifications.Properties", "Resources"));
     }
 }

@@ -82,9 +82,13 @@
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" FontSize="14" FontWeight="Medium" 
                            Foreground="{Binding FontBrush}" Margin="0 10 10 0" HorizontalAlignment="Left" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" HorizontalAlignment="Stretch"
-                           VerticalAlignment="Top" TextWrapping="Wrap" 
-                           Foreground="{Binding FontBrush}" Margin="0 5 10 0"  Height="16" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" Margin="0 5 10 0" Height="35"
+                               HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap"
+                               Foreground="{Binding FontBrush}" TextTrimming="CharacterEllipsis" >
+                        <TextBlock.ToolTip>
+                            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" MinWidth="100" MaxWidth="268"/>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </Grid>
                 
                 <Button Command="{Binding ClosePopup}" Height="16" Width="16" HorizontalAlignment="Right" VerticalAlignment="Top"
