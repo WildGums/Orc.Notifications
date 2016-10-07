@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NotificationService.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="NotificationService.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -145,7 +145,7 @@ namespace Orc.Notifications
                 //popup.Placement = PlacementMode.AbsolutePoint;
                 //popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
 
-                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification);
+                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
                 notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
 
                 // TODO: consider factory
