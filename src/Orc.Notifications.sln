@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.NET40", "Orc.Notifications\Orc.Notifications.NET40\Orc.Notifications.NET40.csproj", "{31CE78CE-896E-43B5-AE7E-A6A4B9944AA4}"
 EndProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E426EAD0-F37
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{3CC711D4-F114-4399-A440-711E40600B3B}"
 	ProjectSection(SolutionItems) = preProject
+		GlobalSuppressions.cs = GlobalSuppressions.cs
 		nuget.config = nuget.config
 		Orc.Notifications.sln.DotSettings = Orc.Notifications.sln.DotSettings
 		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
@@ -38,14 +39,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Notifications.Tests.NET
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{5a25ac1d-7df0-4ebf-8696-944d3173a6d5}*SharedItemsImports = 4
-		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{c42d41d3-9a26-478b-92ca-9ff12f5dfc96}*SharedItemsImports = 13
-		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{a226d12e-9802-4364-b4f3-2caaae059dd4}*SharedItemsImports = 4
-		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{31ce78ce-896e-43b5-ae7e-a6a4b9944aa4}*SharedItemsImports = 4
-		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{b8c4e783-60b7-4424-a19b-e8d4b270307a}*SharedItemsImports = 4
-		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{b3dfb0df-0314-4952-a779-8094644b6fb2}*SharedItemsImports = 4
-		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{3cbf7cb2-ab36-4238-94a1-f864737da426}*SharedItemsImports = 13
 		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{26f6b0d1-bc47-4603-adb5-ef7038ec1838}*SharedItemsImports = 4
+		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{31ce78ce-896e-43b5-ae7e-a6a4b9944aa4}*SharedItemsImports = 4
+		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{3cbf7cb2-ab36-4238-94a1-f864737da426}*SharedItemsImports = 13
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{5a25ac1d-7df0-4ebf-8696-944d3173a6d5}*SharedItemsImports = 4
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{a226d12e-9802-4364-b4f3-2caaae059dd4}*SharedItemsImports = 4
+		Orc.Notifications\Orc.Notifications.Shared\Orc.Notifications.Shared.projitems*{b3dfb0df-0314-4952-a779-8094644b6fb2}*SharedItemsImports = 4
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{b8c4e783-60b7-4424-a19b-e8d4b270307a}*SharedItemsImports = 4
+		Orc.Notifications.Tests\Orc.Notifications.Tests.Shared\Orc.Notifications.Tests.Shared.projitems*{c42d41d3-9a26-478b-92ca-9ff12f5dfc96}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
