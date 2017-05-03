@@ -27,6 +27,8 @@ namespace Orc.SupportPackage.Example.ViewModels
             _messageService = messageService;
 
             ShowNotification = new Command(OnShowNotificationExecute, OnShowNotificationCanExecute);
+
+            Title = "Orc.Notifications example";
         }
 
         #region Properties
