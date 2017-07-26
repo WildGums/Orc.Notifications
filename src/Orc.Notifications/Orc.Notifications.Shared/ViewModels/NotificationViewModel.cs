@@ -113,9 +113,11 @@ namespace Orc.Notifications
             await base.CloseAsync();
         }
 
-        private async void OnDispatcherTimerTick(object sender, EventArgs e)
+        private void OnDispatcherTimerTick(object sender, EventArgs e)
         {
-            await this.SaveAndCloseViewModelAsync();
+#pragma warning disable 4014
+            this.SaveAndCloseViewModelAsync();
+#pragma warning restore 4014
         }
 
         private BitmapImage ExtractLargestIcon()
