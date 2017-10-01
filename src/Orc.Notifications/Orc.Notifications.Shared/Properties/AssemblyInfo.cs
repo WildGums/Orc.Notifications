@@ -21,6 +21,4 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-#if DEBUG
 [assembly: InternalsVisibleTo("Orc.Notifications.Tests")]
-#endif
