@@ -7,15 +7,20 @@
 
 namespace Orc.SupportPackage.Example.ViewModels
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Windows;
+
     using Catel;
     using Catel.MVVM;
     using Catel.Services;
+
     using Notifications;
 
     public class MainViewModel : ViewModelBase
     {
         private readonly INotificationService _notificationService;
+
         private readonly IMessageService _messageService;
 
         public MainViewModel(INotificationService notificationService, IMessageService messageService)
@@ -29,7 +34,12 @@ namespace Orc.SupportPackage.Example.ViewModels
             ShowNotification = new Command(OnShowNotificationExecute, OnShowNotificationCanExecute);
 
             Title = "Orc.Notifications example";
+
+            NotificationPriorities = Enum<NotificationPriority>.GetValues();
+
+            // NotificationPriority = NotificationPriority.High;
         }
+
 
         #region Properties
         [DefaultValue("This is an example title")]
@@ -40,10 +50,18 @@ namespace Orc.SupportPackage.Example.ViewModels
 
         [DefaultValue(true)]
         public bool IsClosable { get; set; }
+
+        [DefaultValue(false)]
+        public bool MinimizeWindow { get; set; }
+
+        public List<NotificationPriority> NotificationPriorities { get; }
+
+        [DefaultValue(NotificationPriority.High)]
+        public NotificationPriority NotificationPriority { get; set; }
+
         #endregion
 
         #region Commands
-
         public Command ShowNotification { get; private set; }
 
         private bool OnShowNotificationCanExecute()
@@ -63,16 +81,16 @@ namespace Orc.SupportPackage.Example.ViewModels
 
         private void OnShowNotificationExecute()
         {
-            var notification = new Notification
+            if (MinimizeWindow)
             {
-                Title = NotificationTitle,
-                Message = NotificationMessage,
-                Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
-                IsClosable = IsClosable
-            };
+                Application.Current.MainWindow.SetCurrentValue(Window.WindowStateProperty, WindowState.Minimized);
+            }
+
+            var notification = new Notification { Title = NotificationTitle, Message = NotificationMessage, Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")), IsClosable = IsClosable, Priority = NotificationPriority};
 
             _notificationService.ShowNotification(notification);
         }
+
         #endregion
     }
 }

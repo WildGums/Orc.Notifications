@@ -11,15 +11,35 @@ namespace Orc.Notifications
     using System.Windows.Input;
     using System.Windows.Media;
 
+    public enum NotificationPriority
+    {
+        Low,
+
+        Normal,
+
+        High,
+
+        Critical
+    }
+
     public interface INotification
     {
         string Title { get; set; }
+
         string Message { get; set; }
+
         ICommand Command { get; set; }
+
         TimeSpan ShowTime { get; set; }
+
         SolidColorBrush BorderBrush { get; set; }
+
         SolidColorBrush BackgroundBrush { get; set; }
+
         SolidColorBrush FontBrush { get; set; }
+
         bool IsClosable { get; set; }
+
+        NotificationPriority Priority { get; set; }
     }
 }

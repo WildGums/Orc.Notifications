@@ -11,6 +11,7 @@ namespace Orc.Notifications
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
@@ -18,7 +19,10 @@ namespace Orc.Notifications
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
+    using Catel.Windows;
+
     using Size = System.Drawing.Size;
+    using Window = System.Windows.Window;
 
     public class NotificationService : INotificationService
     {
@@ -121,46 +125,50 @@ namespace Orc.Notifications
 
             EnsureMainWindow();
 
-            _dispatcherService.BeginInvoke(() =>
+            if (notification.Priority > NotificationPriority.Normal || Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) != null)
             {
-                Log.Debug("Showing notification '{0}'", notification);
+                _dispatcherService.BeginInvoke(
+                    () =>
+                        {
+                            Log.Debug("Showing notification '{0}'", notification);
 
-                var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
+                            var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
 
-                var popup = new Popup();
+                            var popup = new Popup();
 
-                popup.AllowsTransparency = true;
-                popup.Placement = PlacementMode.Custom;
-                popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
-                {
-                    var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
-                    var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
+                            popup.AllowsTransparency = true;
+                            popup.Placement = PlacementMode.Custom;
+                            popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
+                                {
+                                    var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
+                                    var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
 
-                    var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+                                    var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
 
-                    var ttplaces = new [] { popupPlacement };
-                    return ttplaces;
-                };
+                                    var ttplaces = new[] { popupPlacement };
+                                    return ttplaces;
+                                };
 
-                //popup.Placement = PlacementMode.AbsolutePoint;
-                //popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
+                            //popup.Placement = PlacementMode.AbsolutePoint;
+                            //popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
 
-                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
-                notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
+                            var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
+                            notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
 
-                // TODO: consider factory
-                var notificationView = new NotificationView();
-                notificationView.DataContext = notificationViewModel;
-                notificationView.Unloaded += OnNotificationViewUnloaded;
+                            // TODO: consider factory
+                            var notificationView = new NotificationView();
+                            notificationView.DataContext = notificationViewModel;
+                            notificationView.Unloaded += OnNotificationViewUnloaded;
 
-                popup.Child = notificationView;
+                            popup.Child = notificationView;
 
-                popup.IsOpen = true;
+                            popup.IsOpen = true;
 
-                OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
+                            OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
 
-                CurrentNotifications.Add(notification);
-            });
+                            CurrentNotifications.Add(notification);
+                        });
+            }
         }
 
         private void EnsureMainWindow()
