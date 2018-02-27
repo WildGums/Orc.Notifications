@@ -15,11 +15,11 @@ namespace Orc.Notifications
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
+
     using Catel;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Services;
-    using Catel.Windows;
 
     using Size = System.Drawing.Size;
     using Window = System.Windows.Window;
@@ -32,7 +32,9 @@ namespace Orc.Notifications
         private static readonly Size NotificationSize = new Size(Orc.Notifications.NotificationSize.Width, Orc.Notifications.NotificationSize.Height);
 
         private readonly IViewModelFactory _viewModelFactory;
+
         private readonly IDispatcherService _dispatcherService;
+
         private readonly INotificationPositionService _notificationPositionService;
 
         private readonly Queue<INotification> _notificationsQueue = new Queue<INotification>();
@@ -41,8 +43,7 @@ namespace Orc.Notifications
         #endregion
 
         #region Constructors
-        public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService,
-            INotificationPositionService notificationPositionService)
+        public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService, INotificationPositionService notificationPositionService)
         {
             Argument.IsNotNull(() => viewModelFactory);
             Argument.IsNotNull(() => dispatcherService);
@@ -73,6 +74,7 @@ namespace Orc.Notifications
                 _mainWindow = app.MainWindow;
             }
         }
+
         #endregion
 
         #region Properties
@@ -125,50 +127,59 @@ namespace Orc.Notifications
 
             EnsureMainWindow();
 
-            if (notification.Priority > NotificationPriority.Normal || Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) != null)
+            var hasActiveWindows = HasActiveWindows();
+            if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
             {
-                _dispatcherService.BeginInvoke(
-                    () =>
-                        {
-                            Log.Debug("Showing notification '{0}'", notification);
-
-                            var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
-
-                            var popup = new Popup();
-
-                            popup.AllowsTransparency = true;
-                            popup.Placement = PlacementMode.Custom;
-                            popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
-                                {
-                                    var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
-                                    var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
-
-                                    var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
-
-                                    var ttplaces = new[] { popupPlacement };
-                                    return ttplaces;
-                                };
-
-                            //popup.Placement = PlacementMode.AbsolutePoint;
-                            //popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
-
-                            var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
-                            notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
-
-                            // TODO: consider factory
-                            var notificationView = new NotificationView();
-                            notificationView.DataContext = notificationViewModel;
-                            notificationView.Unloaded += OnNotificationViewUnloaded;
-
-                            popup.Child = notificationView;
-
-                            popup.IsOpen = true;
-
-                            OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
-
-                            CurrentNotifications.Add(notification);
-                        });
+                Log.Debug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
+                return;
             }
+
+            _dispatcherService.BeginInvoke(
+                () =>
+                    {
+                        Log.Debug("Showing notification '{0}'", notification);
+
+                        var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
+
+                        var popup = new Popup();
+
+                        popup.AllowsTransparency = true;
+                        popup.Placement = PlacementMode.Custom;
+                        popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
+                            {
+                                var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
+                                var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
+
+                                var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+
+                                var ttplaces = new[] { popupPlacement };
+                                return ttplaces;
+                            };
+
+                        // popup.Placement = PlacementMode.AbsolutePoint;
+                        // popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
+                        var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
+                        notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
+
+                        // TODO: consider factory
+                        var notificationView = new NotificationView();
+                        notificationView.DataContext = notificationViewModel;
+                        notificationView.Unloaded += OnNotificationViewUnloaded;
+
+                        popup.Child = notificationView;
+
+                        popup.IsOpen = true;
+
+                        OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
+
+                        CurrentNotifications.Add(notification);
+                    });
+        }
+
+        protected virtual bool HasActiveWindows()
+        {
+            var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) != null;
+            return hasActiveWindows;
         }
 
         private void EnsureMainWindow()
@@ -224,6 +235,7 @@ namespace Orc.Notifications
         {
             // todo: close main window
         }
+
         #endregion
     }
 }

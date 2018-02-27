@@ -86,7 +86,14 @@ namespace Orc.SupportPackage.Example.ViewModels
                 Application.Current.MainWindow.SetCurrentValue(Window.WindowStateProperty, WindowState.Minimized);
             }
 
-            var notification = new Notification { Title = NotificationTitle, Message = NotificationMessage, Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")), IsClosable = IsClosable, Priority = NotificationPriority};
+            var notification = new Notification
+                                   {
+                                       Title = NotificationTitle,
+                                       Message = NotificationMessage,
+                                       Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+                                       IsClosable = IsClosable,
+                                       Priority = NotificationPriority
+                                   };
 
             _notificationService.ShowNotification(notification);
         }

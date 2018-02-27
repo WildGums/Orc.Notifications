@@ -11,17 +11,6 @@ namespace Orc.Notifications
     using System.Windows.Input;
     using System.Windows.Media;
 
-    public enum NotificationPriority
-    {
-        Low,
-
-        Normal,
-
-        High,
-
-        Critical
-    }
-
     public interface INotification
     {
         string Title { get; set; }
