@@ -20,6 +20,7 @@ namespace Orc.Notifications
         System.Windows.Media.SolidColorBrush FontBrush { get; set; }
         bool IsClosable { get; set; }
         string Message { get; set; }
+        Orc.Notifications.NotificationPriority Priority { get; set; }
         System.TimeSpan ShowTime { get; set; }
         string Title { get; set; }
     }
@@ -54,6 +55,7 @@ namespace Orc.Notifications
         public int Id { get; }
         public bool IsClosable { get; set; }
         public string Message { get; set; }
+        public Orc.Notifications.NotificationPriority Priority { get; set; }
         public System.TimeSpan ShowTime { get; set; }
         public string Title { get; set; }
         public override string ToString() { }
@@ -62,6 +64,13 @@ namespace Orc.Notifications
     {
         public NotificationEventArgs(Orc.Notifications.INotification notification) { }
         public Orc.Notifications.INotification Notification { get; }
+    }
+    public enum NotificationPriority
+    {
+        Low = 0,
+        Normal = 1,
+        High = 2,
+        Critical = 3,
     }
     public class NotificationService : Orc.Notifications.INotificationService
     {
@@ -73,6 +82,7 @@ namespace Orc.Notifications
         public bool IsSuspended { get; }
         public event System.EventHandler<Orc.Notifications.NotificationEventArgs> ClosedNotification;
         public event System.EventHandler<Orc.Notifications.NotificationEventArgs> OpenedNotification;
+        protected virtual bool HasActiveWindows() { }
         public void Resume() { }
         public void ShowNotification(Orc.Notifications.INotification notification) { }
         public void Suspend() { }
