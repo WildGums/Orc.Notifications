@@ -11,6 +11,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -23,10 +25,15 @@
 
         <Label Content="Message" />
         <TextBox Text="{Binding NotificationMessage}" AcceptsReturn="True" Height="50" />
+
+
+        <Label Content="Priority" />
+        <ComboBox ItemsSource="{Binding NotificationPriorities}" SelectedItem="{Binding NotificationPriority}" MaxWidth="200" HorizontalAlignment="Left"></ComboBox>
         
         <CheckBox Grid.ColumnSpan="2" Content="Is closable" IsChecked="{Binding IsClosable}"/>
+        <CheckBox Grid.ColumnSpan="2" Content="Minimize window" IsChecked="{Binding MinimizeWindow}"/>
         
-        <Button Content="Show notification" Command="{Binding ShowNotification}" />
+        <Button Content="Show notification" Command="{Binding ShowNotification}"  />
         
     </orc:StackGrid>
 </catel:Window>

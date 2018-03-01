@@ -14,12 +14,21 @@ namespace Orc.Notifications
     public interface INotification
     {
         string Title { get; set; }
+
         string Message { get; set; }
+
         ICommand Command { get; set; }
+
         TimeSpan ShowTime { get; set; }
+
         SolidColorBrush BorderBrush { get; set; }
+
         SolidColorBrush BackgroundBrush { get; set; }
+
         SolidColorBrush FontBrush { get; set; }
+
         bool IsClosable { get; set; }
+
+        NotificationPriority Priority { get; set; }
     }
 }

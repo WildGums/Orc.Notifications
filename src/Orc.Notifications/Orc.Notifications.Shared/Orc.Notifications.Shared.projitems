@@ -10,12 +10,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DpiHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IconHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\INotification.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\NotificationPriority.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Notification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
