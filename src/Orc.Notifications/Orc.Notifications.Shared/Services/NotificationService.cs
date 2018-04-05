@@ -125,55 +125,54 @@ namespace Orc.Notifications
                 return;
             }
 
-            EnsureMainWindow();
-
-            var hasActiveWindows = HasActiveWindows();
-            if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
+            _dispatcherService.BeginInvoke(() =>
             {
-                Log.Debug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
-                return;
-            }
+                EnsureMainWindow();
 
-            _dispatcherService.BeginInvoke(
-                () =>
+                var hasActiveWindows = HasActiveWindows();
+                if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
+                {
+                    Log.Debug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
+                    return;
+                }
+
+                Log.Debug("Showing notification '{0}'", notification);
+
+                var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
+
+                var popup = new Popup();
+
+                popup.AllowsTransparency = true;
+                popup.Placement = PlacementMode.Custom;
+                popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
                     {
-                        Log.Debug("Showing notification '{0}'", notification);
+                        var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
+                        var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
 
-                        var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
+                        var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
 
-                        var popup = new Popup();
+                        var ttplaces = new[] { popupPlacement };
+                        return ttplaces;
+                    };
 
-                        popup.AllowsTransparency = true;
-                        popup.Placement = PlacementMode.Custom;
-                        popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
-                            {
-                                var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
-                                var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
+                // popup.Placement = PlacementMode.AbsolutePoint;
+                // popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
+                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
+                notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
 
-                                var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+                // TODO: consider factory
+                var notificationView = new NotificationView();
+                notificationView.DataContext = notificationViewModel;
+                notificationView.Unloaded += OnNotificationViewUnloaded;
 
-                                var ttplaces = new[] { popupPlacement };
-                                return ttplaces;
-                            };
+                popup.Child = notificationView;
 
-                        // popup.Placement = PlacementMode.AbsolutePoint;
-                        // popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
-                        var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
-                        notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
+                popup.IsOpen = true;
 
-                        // TODO: consider factory
-                        var notificationView = new NotificationView();
-                        notificationView.DataContext = notificationViewModel;
-                        notificationView.Unloaded += OnNotificationViewUnloaded;
+                OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
 
-                        popup.Child = notificationView;
-
-                        popup.IsOpen = true;
-
-                        OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
-
-                        CurrentNotifications.Add(notification);
-                    });
+                CurrentNotifications.Add(notification);
+            });
         }
 
         protected virtual bool HasActiveWindows()
