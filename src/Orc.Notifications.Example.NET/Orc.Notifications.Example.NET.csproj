@@ -4,6 +4,7 @@
     <AssemblyName>Orc.Notifications.Example.NET</AssemblyName>
     <RootNamespace>Orc.Notifications.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
   <PropertyGroup>
