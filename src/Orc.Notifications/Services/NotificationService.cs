@@ -145,22 +145,19 @@ namespace Orc.Notifications
                 popup.AllowsTransparency = true;
                 popup.Placement = PlacementMode.Custom;
                 popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
-                    {
-                        var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
-                        var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
+                {
+                    var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
+                    var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
 
-                        var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+                    var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
 
-                        var ttplaces = new[] { popupPlacement };
-                        return ttplaces;
-                    };
+                    var ttplaces = new[] { popupPlacement };
+                    return ttplaces;
+                };
 
-                // popup.Placement = PlacementMode.AbsolutePoint;
-                // popup.PlacementRectangle = new Rect(notificationLocation.X, notificationLocation.Y, NotificationSize.Width, NotificationSize.Height);
                 var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
                 notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
 
-                // TODO: consider factory
                 var notificationView = new NotificationView();
                 notificationView.DataContext = notificationViewModel;
                 notificationView.Unloaded += OnNotificationViewUnloaded;
@@ -192,10 +189,6 @@ namespace Orc.Notifications
             if (application != null)
             {
                 _mainWindow = application.MainWindow;
-                if (_mainWindow != null)
-                {
-                    _mainWindow.Closing += OnMainWindowClosing;
-                }
             }
         }
 
@@ -229,12 +222,6 @@ namespace Orc.Notifications
                 ClosedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
             }
         }
-
-        private void OnMainWindowClosing(object sender, CancelEventArgs e)
-        {
-            // todo: close main window
-        }
-
         #endregion
     }
 }

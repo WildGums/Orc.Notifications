@@ -57,16 +57,12 @@ namespace Orc.Notifications
         {
             var currentWindows = Application.Current.Windows;
             var count = currentWindows.Count - 1;
+
             while (count >= 0)
             {
-                var window = currentWindows[count--];
-                //if (window is NotificationView)
-                //{
-                //    continue;
-                //}
-
+                var window = currentWindows[count];
                 window.Activate();
-                return;
+                break;
             }
         }
     }
