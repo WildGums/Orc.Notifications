@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>;netcoreapp3.</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Orc.Notifications.Example.NET</AssemblyName>
     <RootNamespace>Orc.Notifications.Example</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
