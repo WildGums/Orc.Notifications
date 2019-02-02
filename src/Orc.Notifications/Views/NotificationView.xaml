@@ -4,7 +4,8 @@
                   xmlns:catel="http://schemas.catelproject.com"
                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   xmlns:system="clr-namespace:System;assembly=mscorlib"
-                  x:Name="notificationWindow">
+                   xmlns:local="clr-namespace:Orc.Notifications"
+                   x:Name="notificationWindow">
 
     <UserControl.Resources>
         <system:Double x:Key="DefaultOpacity">0.8</system:Double>
@@ -38,7 +39,7 @@
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
                         <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                        <ColorAnimation To="{DynamicResource NotificationAccentColor}" Storyboard.TargetName="Border" Duration="0:0:2"
+                        <ColorAnimation To="{Binding Notification, Converter={local:NotificationBorderBrushConverter}}" Storyboard.TargetName="Border" Duration="0:0:2"
                                         Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </BeginStoryboard>

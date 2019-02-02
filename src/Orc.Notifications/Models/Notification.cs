@@ -19,7 +19,8 @@ namespace Orc.Notifications
             Id = UniqueIdentifierHelper.GetUniqueIdentifier<Notification>();
             ShowTime = TimeSpan.FromSeconds(5);
             IsClosable = true;
-            Priority = NotificationPriority.High;
+            Priority = NotificationPriority.Normal;
+            Level = NotificationLevel.Normal;
         }
 
         public int Id { get; private set; }
@@ -41,6 +42,8 @@ namespace Orc.Notifications
         public bool IsClosable { get; set; }
 
         public NotificationPriority Priority { get; set; }
+
+        public NotificationLevel Level { get; set; }
 
         public override string ToString()
         {

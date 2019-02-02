@@ -23,10 +23,10 @@ namespace Orc.Notifications
             {
                 return _accentColorResourceDictionary;
             }
+
             var resourceDictionary = new ResourceDictionary();
 
             resourceDictionary.Add("NotificationAccentColor", color);
-
             resourceDictionary.Add("NotificationAccentColorBrush", new SolidColorBrush((Color) resourceDictionary["NotificationAccentColor"]));
 
             var application = Application.Current;

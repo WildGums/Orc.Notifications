@@ -33,9 +33,13 @@
         
         <CheckBox Grid.ColumnSpan="2" Content="Is closable" IsChecked="{Binding IsClosable}"/>
         <CheckBox Grid.ColumnSpan="2" Content="Minimize window" IsChecked="{Binding MinimizeWindow}"/>
-        
-        <Button Content="Show notification" Command="{Binding ShowNotification}"  />
-        
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Show normal notification" Command="{Binding ShowNotification}"  />
+            <Button Content="Show warning notification" Command="{Binding ShowWarningNotification}"  />
+            <Button Content="Show error notification" Command="{Binding ShowErrorNotification}"  />
+        </StackPanel>
+
     </orccontrols:StackGrid>
 </catel:Window>
 
