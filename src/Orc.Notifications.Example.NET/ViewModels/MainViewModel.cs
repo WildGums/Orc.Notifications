@@ -31,6 +31,8 @@ namespace Orc.SupportPackage.Example.ViewModels
             _notificationService = notificationService;
             _messageService = messageService;
 
+            ShowErrorNotification = new Command(OnShowErrorNotificationExecute, OnShowNotificationCanExecute);
+            ShowWarningNotification = new Command(OnShowWarningNotificationExecute, OnShowNotificationCanExecute);
             ShowNotification = new Command(OnShowNotificationExecute, OnShowNotificationCanExecute);
 
             Title = "Orc.Notifications example";
@@ -62,8 +64,6 @@ namespace Orc.SupportPackage.Example.ViewModels
         #endregion
 
         #region Commands
-        public Command ShowNotification { get; private set; }
-
         private bool OnShowNotificationCanExecute()
         {
             if (string.IsNullOrWhiteSpace(NotificationTitle))
@@ -79,6 +79,50 @@ namespace Orc.SupportPackage.Example.ViewModels
             return true;
         }
 
+        public Command ShowErrorNotification { get; private set; }
+
+        private void OnShowErrorNotificationExecute()
+        {
+            if (MinimizeWindow)
+            {
+                Application.Current.MainWindow.SetCurrentValue(Window.WindowStateProperty, WindowState.Minimized);
+            }
+
+            var notification = new ErrorNotification
+            {
+                Title = NotificationTitle,
+                Message = NotificationMessage,
+                Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+                IsClosable = IsClosable,
+                Priority = NotificationPriority
+            };
+
+            _notificationService.ShowNotification(notification);
+        }
+
+        public Command ShowWarningNotification { get; private set; }
+
+        private void OnShowWarningNotificationExecute()
+        {
+            if (MinimizeWindow)
+            {
+                Application.Current.MainWindow.SetCurrentValue(Window.WindowStateProperty, WindowState.Minimized);
+            }
+
+            var notification = new WarningNotification
+            {
+                Title = NotificationTitle,
+                Message = NotificationMessage,
+                Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+                IsClosable = IsClosable,
+                Priority = NotificationPriority
+            };
+
+            _notificationService.ShowNotification(notification);
+        }
+
+        public Command ShowNotification { get; private set; }
+
         private void OnShowNotificationExecute()
         {
             if (MinimizeWindow)
@@ -87,17 +131,16 @@ namespace Orc.SupportPackage.Example.ViewModels
             }
 
             var notification = new Notification
-                                   {
-                                       Title = NotificationTitle,
-                                       Message = NotificationMessage,
-                                       Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
-                                       IsClosable = IsClosable,
-                                       Priority = NotificationPriority
-                                   };
+            {
+                Title = NotificationTitle,
+                Message = NotificationMessage,
+                Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+                IsClosable = IsClosable,
+                Priority = NotificationPriority
+            };
 
             _notificationService.ShowNotification(notification);
         }
-
         #endregion
     }
 }

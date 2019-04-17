@@ -10,6 +10,10 @@ public class static ModuleInitializer
 }
 namespace Orc.Notifications
 {
+    public class ErrorNotification : Orc.Notifications.Notification
+    {
+        public ErrorNotification() { }
+    }
     public interface INotification
     {
         System.Windows.Media.SolidColorBrush BackgroundBrush { get; set; }
@@ -41,7 +45,9 @@ namespace Orc.Notifications
     }
     public class static INotificationServiceExtensions
     {
+        public static void ShowErrorNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
         public static void ShowNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
+        public static void ShowWarningNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
     }
     public class Notification : Orc.Notifications.INotification
     {
@@ -52,16 +58,29 @@ namespace Orc.Notifications
         public System.Windows.Media.SolidColorBrush FontBrush { get; set; }
         public int Id { get; }
         public bool IsClosable { get; set; }
+        public Orc.Notifications.NotificationLevel Level { get; set; }
         public string Message { get; set; }
         public Orc.Notifications.NotificationPriority Priority { get; set; }
         public System.TimeSpan ShowTime { get; set; }
         public string Title { get; set; }
         public override string ToString() { }
     }
+    public class NotificationBorderBrushConverter : Catel.MVVM.Converters.ValueConverterBase<Orc.Notifications.INotification>
+    {
+        public NotificationBorderBrushConverter() { }
+        protected override object Convert(Orc.Notifications.INotification value, System.Type targetType, object parameter) { }
+    }
     public class NotificationEventArgs : System.EventArgs
     {
         public NotificationEventArgs(Orc.Notifications.INotification notification) { }
         public Orc.Notifications.INotification Notification { get; }
+    }
+    public enum NotificationLevel
+    {
+        Info = 1,
+        Warning = 2,
+        Error = 3,
+        Normal = 1,
     }
     public enum NotificationPriority
     {
@@ -127,5 +146,9 @@ namespace Orc.Notifications
     {
         public RightTopNotificationPositionService() { }
         public virtual System.Drawing.Point GetLeftTopCorner(System.Drawing.Size notificationSize, int numberOfNotifications) { }
+    }
+    public class WarningNotification : Orc.Notifications.Notification
+    {
+        public WarningNotification() { }
     }
 }

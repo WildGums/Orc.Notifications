@@ -166,7 +166,7 @@ namespace Orc.Notifications
 
                 popup.IsOpen = true;
 
-                OpenedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
+                OpenedNotification?.Invoke(this, new NotificationEventArgs(notification));
 
                 CurrentNotifications.Add(notification);
             });
@@ -219,7 +219,7 @@ namespace Orc.Notifications
             {
                 CurrentNotifications.Remove(notification);
 
-                ClosedNotification.SafeInvoke(this, new NotificationEventArgs(notification));
+                ClosedNotification?.Invoke(this, new NotificationEventArgs(notification));
             }
         }
         #endregion
