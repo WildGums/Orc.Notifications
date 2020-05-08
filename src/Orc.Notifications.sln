@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AE5DC7A0-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Notifications", "Orc.Notifications\Orc.Notifications.csproj", "{B4C6FA0A-0B29-4BE8-AEAB-3A7705C0C961}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Notifications.Example.NET", "Orc.Notifications.Example.NET\Orc.Notifications.Example.NET.csproj", "{9BEF44E7-66CD-4B5F-8230-59B3F783CB7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Notifications.Example", "Orc.Notifications.Example\Orc.Notifications.Example.csproj", "{9BEF44E7-66CD-4B5F-8230-59B3F783CB7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Notifications.Tests", "Orc.Notifications.Tests\Orc.Notifications.Tests.csproj", "{F1F6EE27-CFF7-4899-A4B0-09BA08DF3792}"
 EndProject
