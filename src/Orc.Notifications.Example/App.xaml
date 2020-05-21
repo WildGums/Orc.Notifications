@@ -4,7 +4,7 @@
              StartupUri="Views/MainView.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="AccentColorBrush" Color="#F19B39" />
+            <SolidColorBrush x:Key="AccentColorBrush" Color="Orange" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
