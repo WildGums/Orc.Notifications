@@ -1,10 +1,10 @@
-﻿[assembly: System.Resources.NeutralResourcesLanguageAttribute("en-US")]
-[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.6", FrameworkDisplayName=".NET Framework 4.6")]
-[assembly: System.Windows.Markup.XmlnsDefinitionAttribute("http://schemas.wildgums.com/orc/notifications", "Orc.Notifications")]
-[assembly: System.Windows.Markup.XmlnsPrefixAttribute("http://schemas.wildgums.com/orc/notifications", "orcnotifications")]
-[assembly: System.Windows.ThemeInfoAttribute(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
-public class static LoadAssembliesOnStartup { }
-public class static ModuleInitializer
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.1", FrameworkDisplayName="")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/notifications", "Orc.Notifications")]
+[assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/notifications", "orcnotifications")]
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
+public static class LoadAssembliesOnStartup { }
+public static class ModuleInitializer
 {
     public static void Initialize() { }
 }
@@ -37,13 +37,13 @@ namespace Orc.Notifications
         System.Windows.Media.SolidColorBrush DefaultBorderBrush { get; set; }
         System.Windows.Media.SolidColorBrush DefaultFontBrush { get; set; }
         bool IsSuspended { get; }
-        public event System.EventHandler<Orc.Notifications.NotificationEventArgs> ClosedNotification;
-        public event System.EventHandler<Orc.Notifications.NotificationEventArgs> OpenedNotification;
+        event System.EventHandler<Orc.Notifications.NotificationEventArgs> ClosedNotification;
+        event System.EventHandler<Orc.Notifications.NotificationEventArgs> OpenedNotification;
         void Resume();
         void ShowNotification(Orc.Notifications.INotification notification);
         void Suspend();
     }
-    public class static INotificationServiceExtensions
+    public static class INotificationServiceExtensions
     {
         public static void ShowErrorNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
         public static void ShowNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
@@ -104,7 +104,7 @@ namespace Orc.Notifications
         public void ShowNotification(Orc.Notifications.INotification notification) { }
         public void Suspend() { }
     }
-    public class static NotificationSize
+    public static class NotificationSize
     {
         public const int Height = 68;
         public const int Width = 380;
