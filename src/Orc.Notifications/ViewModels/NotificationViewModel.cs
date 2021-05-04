@@ -76,7 +76,7 @@ namespace Orc.Notifications
 
         private void OnPauseTimerExecute()
         {
-            if (_dispatcherTimer != null)
+            if (_dispatcherTimer is not null)
             {
                 _dispatcherTimer.Stop();
             }
@@ -86,7 +86,7 @@ namespace Orc.Notifications
 
         private void OnResumeTimerExecute()
         {
-            if (_dispatcherTimer != null)
+            if (_dispatcherTimer is not null)
             {
                 _dispatcherTimer.Start();
             }

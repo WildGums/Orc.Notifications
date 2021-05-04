@@ -41,10 +41,10 @@ namespace Orc.Notifications
             ActivatePreviousWindow();
 
             var vm = ViewModel as NotificationViewModel;
-            if (vm != null)
+            if (vm is not null)
             {
                 var command = vm.Command;
-                if (command != null)
+                if (command is not null)
                 {
                     command.Execute(null);
                 }

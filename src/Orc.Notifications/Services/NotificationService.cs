@@ -60,10 +60,10 @@ namespace Orc.Notifications
             DefaultFontBrush = Brushes.WhiteSmoke;
 
             var app = Application.Current;
-            if (app != null)
+            if (app is not null)
             {
                 var accentColorBrush = app.TryFindResource("AccentColorBrush") as SolidColorBrush;
-                if (accentColorBrush != null)
+                if (accentColorBrush is not null)
                 {
                     DefaultBorderBrush = accentColorBrush;
                     DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
@@ -174,19 +174,19 @@ namespace Orc.Notifications
 
         protected virtual bool HasActiveWindows()
         {
-            var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) != null;
+            var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) is not null;
             return hasActiveWindows;
         }
 
         private void EnsureMainWindow()
         {
-            if (_mainWindow != null)
+            if (_mainWindow is not null)
             {
                 return;
             }
 
             var application = Application.Current;
-            if (application != null)
+            if (application is not null)
             {
                 _mainWindow = application.MainWindow;
             }
@@ -195,27 +195,27 @@ namespace Orc.Notifications
         private void OnNotificationViewUnloaded(object sender, EventArgs e)
         {
             var notificationControl = sender as NotificationView;
-            if (notificationControl == null)
+            if (notificationControl is null)
             {
                 return;
             }
 
             var notification = notificationControl.DataContext as INotification;
-            if (notification == null)
+            if (notification is null)
             {
                 var notificationViewModel = notificationControl.DataContext as NotificationViewModel;
-                if (notificationViewModel == null)
+                if (notificationViewModel is null)
                 {
                     notificationViewModel = notificationControl.ViewModel as NotificationViewModel;
                 }
 
-                if (notificationViewModel != null)
+                if (notificationViewModel is not null)
                 {
                     notification = notificationViewModel.Notification;
                 }
             }
 
-            if (notification != null)
+            if (notification is not null)
             {
                 CurrentNotifications.Remove(notification);
 

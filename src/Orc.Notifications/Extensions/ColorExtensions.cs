@@ -19,7 +19,7 @@ namespace Orc.Notifications
         #region Methods
         public static ResourceDictionary CreateAccentColorResourceDictionary(this Color color)
         {
-            if (_accentColorResourceDictionary != null)
+            if (_accentColorResourceDictionary is not null)
             {
                 return _accentColorResourceDictionary;
             }
