@@ -136,7 +136,7 @@ namespace Orc.Notifications
                     return;
                 }
 
-                Log.Debug("Showing notification '{0}'", notification);
+                Log.Debug($"Showing notification '{notification}'");
 
                 var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
 
@@ -156,7 +156,12 @@ namespace Orc.Notifications
                 };
 
                 var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
-                notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
+                notificationViewModel.ClosedAsync += async (sender, e) =>
+                {
+                    Log.Debug($"Hiding notification '{notification}'");
+
+                    popup.IsOpen = false;
+                };
 
                 var notificationView = new NotificationView();
                 notificationView.DataContext = notificationViewModel;
@@ -194,19 +199,21 @@ namespace Orc.Notifications
 
         private void OnNotificationViewUnloaded(object sender, EventArgs e)
         {
-            var notificationControl = sender as NotificationView;
-            if (notificationControl is null)
+            var notificationView = sender as NotificationView;
+            if (notificationView is null)
             {
                 return;
             }
 
-            var notification = notificationControl.DataContext as INotification;
+            notificationView.Unloaded -= OnNotificationViewUnloaded;
+
+            var notification = notificationView.DataContext as INotification;
             if (notification is null)
             {
-                var notificationViewModel = notificationControl.DataContext as NotificationViewModel;
+                var notificationViewModel = notificationView.DataContext as NotificationViewModel;
                 if (notificationViewModel is null)
                 {
-                    notificationViewModel = notificationControl.ViewModel as NotificationViewModel;
+                    notificationViewModel = notificationView.ViewModel as NotificationViewModel;
                 }
 
                 if (notificationViewModel is not null)
