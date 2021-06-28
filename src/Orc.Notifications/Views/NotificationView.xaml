@@ -15,7 +15,10 @@
         <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1.5"/>
     </Window.Effect>-->
 
-    <Border BorderThickness="0.5" BorderBrush="WhiteSmoke" Opacity="0" Margin="20">
+    <Border BorderThickness="0.5"
+            BorderBrush="WhiteSmoke"
+            Opacity="0"
+            Margin="20">
         <xamlbehaviors:Interaction.Triggers>
             <xamlbehaviors:EventTrigger EventName="MouseEnter">
                 <xamlbehaviors:InvokeCommandAction Command="{Binding PauseTimer}" />
@@ -30,7 +33,9 @@
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
-                        <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
+                        <DoubleAnimation To="{StaticResource DefaultOpacity}"
+                                         Storyboard.TargetProperty="Opacity"
+                                         Duration="0:0:2" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
@@ -38,8 +43,12 @@
             <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
-                        <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                        <ColorAnimation To="{Binding Notification, Converter={local:NotificationBorderBrushConverter}}" Storyboard.TargetName="Border" Duration="0:0:2"
+                        <DoubleAnimation To="1"
+                                         Storyboard.TargetProperty="Opacity"
+                                         Duration="0:0:2" />
+                        <ColorAnimation To="{Binding Notification, Converter={local:NotificationBorderBrushConverter}}"
+                                        Storyboard.TargetName="Border"
+                                        Duration="0:0:2"
                                         Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </BeginStoryboard>
@@ -48,8 +57,12 @@
             <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
-                        <DoubleAnimation To="{StaticResource DefaultOpacity}" Storyboard.TargetProperty="Opacity" Duration="0:0:2" />
-                        <ColorAnimation To="LightGray" Storyboard.TargetName="Border" Duration="0:0:2"
+                        <DoubleAnimation To="{StaticResource DefaultOpacity}"
+                                         Storyboard.TargetProperty="Opacity"
+                                         Duration="0:0:2" />
+                        <ColorAnimation To="LightGray"
+                                        Storyboard.TargetName="Border"
+                                        Duration="0:0:2"
                                         Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" />
                     </Storyboard>
                 </BeginStoryboard>
@@ -58,18 +71,23 @@
             <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
                 <BeginStoryboard>
                     <Storyboard SpeedRatio="4">
-                        <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:2"/>
+                        <DoubleAnimation To="0"
+                                         Storyboard.TargetProperty="Opacity"
+                                         Duration="0:0:2" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
         </Border.Triggers>
 
-        <Border x:Name="Border" BorderThickness="1.5" BorderBrush="LightGray" Background="{Binding BackgroundBrush}">
+        <Border x:Name="Border"
+                BorderThickness="1.5"
+                BorderBrush="LightGray"
+                Background="{Binding BackgroundBrush}">
             <Grid>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
-                        <RowDefinition MinHeight="45"  />
+                        <RowDefinition MinHeight="45" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -77,44 +95,77 @@
                         <ColumnDefinition Width="268" />
                     </Grid.ColumnDefinitions>
 
-                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding AppIcon}" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" Stretch="Uniform" Margin="2 2 8 2"/>
+                    <Image Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.RowSpan="2"
+                           Source="{Binding AppIcon}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Stretch="Uniform"
+                           Margin="2 2 8 2" />
 
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" FontSize="14" FontWeight="Medium" 
-                           Foreground="{Binding FontBrush}" Margin="0 10 10 0" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Text="{Binding Title}"
+                               FontSize="14"
+                               FontWeight="Medium"
+                               Foreground="{Binding FontBrush}"
+                               Margin="0 10 10 0"
+                               HorizontalAlignment="Left" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Message}" Margin="0 5 10 0" Height="35"
-                               HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap"
-                               Foreground="{Binding FontBrush}" TextTrimming="CharacterEllipsis" >
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding Message}"
+                               Margin="0 5 10 0"
+                               Height="35"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Top"
+                               TextWrapping="Wrap"
+                               Foreground="{Binding FontBrush}"
+                               TextTrimming="CharacterEllipsis">
                         <TextBlock.ToolTip>
-                            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" MinWidth="100" MaxWidth="268"/>
+                            <TextBlock Text="{Binding Message}"
+                                       TextWrapping="Wrap"
+                                       MinWidth="100"
+                                       MaxWidth="268" />
                         </TextBlock.ToolTip>
                     </TextBlock>
                 </Grid>
-                
-                <Button Command="{Binding ClosePopup}" Height="16" Width="16" HorizontalAlignment="Right" VerticalAlignment="Top"
+
+                <Button Command="{Binding ClosePopup}"
+                        Height="16"
+                        Width="16"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
                         Visibility="{Binding IsClosable, Converter={catel:BooleanToHidingVisibilityConverter}}">
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
-                                <Canvas Background="Transparent"/>
-                                <Path HorizontalAlignment="Center" Margin="2" 
-                                      Stroke="Gray" StrokeThickness="2"
-                                      SnapsToDevicePixels="True" Stretch="Fill"
-                                      UseLayoutRounding="True" 
+                                <Canvas Background="Transparent" />
+                                <Path HorizontalAlignment="Center"
+                                      Margin="2"
+                                      Stroke="Gray"
+                                      StrokeThickness="2"
+                                      SnapsToDevicePixels="True"
+                                      Stretch="Fill"
+                                      UseLayoutRounding="True"
                                       VerticalAlignment="Center">
                                     <Path.Triggers>
                                         <EventTrigger RoutedEvent="FrameworkElement.MouseEnter">
                                             <BeginStoryboard>
                                                 <Storyboard SpeedRatio="10">
-                                                    <DoubleAnimation To="3" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                                    <DoubleAnimation To="3"
+                                                                     Storyboard.TargetProperty="StrokeThickness"
+                                                                     Duration="0:0:2" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger>
                                         <EventTrigger RoutedEvent="FrameworkElement.MouseLeave">
                                             <BeginStoryboard>
                                                 <Storyboard SpeedRatio="10">
-                                                    <DoubleAnimation To="2" Storyboard.TargetProperty="StrokeThickness" Duration="0:0:2" />
+                                                    <DoubleAnimation To="2"
+                                                                     Storyboard.TargetProperty="StrokeThickness"
+                                                                     Duration="0:0:2" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger>
@@ -122,10 +173,10 @@
                                     <Path.Data>
                                         <PathGeometry>
                                             <PathFigure StartPoint="0,0">
-                                                <LineSegment Point="14,14"/>
+                                                <LineSegment Point="14,14" />
                                             </PathFigure>
                                             <PathFigure StartPoint="14,0">
-                                                <LineSegment Point="0,14"/>
+                                                <LineSegment Point="0,14" />
                                             </PathFigure>
                                         </PathGeometry>
                                     </Path.Data>
@@ -137,5 +188,5 @@
             </Grid>
         </Border>
     </Border>
-    
+
 </catel:UserControl>

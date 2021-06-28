@@ -9,7 +9,7 @@
         protected override object Convert(INotification value, Type targetType, object parameter)
         {
             var borderBrush = value?.BorderBrush;
-            if (borderBrush != null)
+            if (borderBrush is not null)
             {
                 return borderBrush.Color;
             }

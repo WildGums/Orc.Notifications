@@ -60,10 +60,10 @@ namespace Orc.Notifications
             DefaultFontBrush = Brushes.WhiteSmoke;
 
             var app = Application.Current;
-            if (app != null)
+            if (app is not null)
             {
                 var accentColorBrush = app.TryFindResource("AccentColorBrush") as SolidColorBrush;
-                if (accentColorBrush != null)
+                if (accentColorBrush is not null)
                 {
                     DefaultBorderBrush = accentColorBrush;
                     DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
@@ -136,7 +136,7 @@ namespace Orc.Notifications
                     return;
                 }
 
-                Log.Debug("Showing notification '{0}'", notification);
+                Log.Debug($"Showing notification '{notification}'");
 
                 var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
 
@@ -156,7 +156,12 @@ namespace Orc.Notifications
                 };
 
                 var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
-                notificationViewModel.ClosedAsync += async (sender, e) => popup.IsOpen = false;
+                notificationViewModel.ClosedAsync += async (sender, e) =>
+                {
+                    Log.Debug($"Hiding notification '{notification}'");
+
+                    popup.IsOpen = false;
+                };
 
                 var notificationView = new NotificationView();
                 notificationView.DataContext = notificationViewModel;
@@ -174,19 +179,19 @@ namespace Orc.Notifications
 
         protected virtual bool HasActiveWindows()
         {
-            var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) != null;
+            var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) is not null;
             return hasActiveWindows;
         }
 
         private void EnsureMainWindow()
         {
-            if (_mainWindow != null)
+            if (_mainWindow is not null)
             {
                 return;
             }
 
             var application = Application.Current;
-            if (application != null)
+            if (application is not null)
             {
                 _mainWindow = application.MainWindow;
             }
@@ -194,28 +199,30 @@ namespace Orc.Notifications
 
         private void OnNotificationViewUnloaded(object sender, EventArgs e)
         {
-            var notificationControl = sender as NotificationView;
-            if (notificationControl == null)
+            var notificationView = sender as NotificationView;
+            if (notificationView is null)
             {
                 return;
             }
 
-            var notification = notificationControl.DataContext as INotification;
-            if (notification == null)
+            notificationView.Unloaded -= OnNotificationViewUnloaded;
+
+            var notification = notificationView.DataContext as INotification;
+            if (notification is null)
             {
-                var notificationViewModel = notificationControl.DataContext as NotificationViewModel;
-                if (notificationViewModel == null)
+                var notificationViewModel = notificationView.DataContext as NotificationViewModel;
+                if (notificationViewModel is null)
                 {
-                    notificationViewModel = notificationControl.ViewModel as NotificationViewModel;
+                    notificationViewModel = notificationView.ViewModel as NotificationViewModel;
                 }
 
-                if (notificationViewModel != null)
+                if (notificationViewModel is not null)
                 {
                     notification = notificationViewModel.Notification;
                 }
             }
 
-            if (notification != null)
+            if (notification is not null)
             {
                 CurrentNotifications.Remove(notification);
 
