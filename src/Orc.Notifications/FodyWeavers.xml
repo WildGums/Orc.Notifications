@@ -9,4 +9,5 @@
       Orc.*
     </IncludeAssemblies>
   </LoadAssembliesOnStartup>
+  <Obsolete />
 </Weavers>
