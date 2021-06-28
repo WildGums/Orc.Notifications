@@ -42,6 +42,9 @@ namespace Orc.Notifications
             PauseTimer = new Command(OnPauseTimerExecute);
             ResumeTimer = new Command(OnResumeTimerExecute);
             ClosePopup = new TaskCommand(OnClosePopupExecuteAsync);
+
+            // Validation makes no sense on notifications
+            AutomaticallyValidateOnPropertyChanged = false;
         }
 
         #region Properties
@@ -116,7 +119,8 @@ namespace Orc.Notifications
         private void OnDispatcherTimerTick(object sender, EventArgs e)
         {
 #pragma warning disable 4014
-            this.SaveAndCloseViewModelAsync();
+            // Cancel to make sure we don't enable validation
+            this.CancelAndCloseViewModelAsync();
 #pragma warning restore 4014
         }
 
