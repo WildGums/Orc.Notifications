@@ -38,12 +38,18 @@ namespace Orc.Notifications
 
         public static BitmapImage ExtractLargestIconFromFile(string filePath)
         {
+#pragma warning disable IDISP001 // Dispose created
             var icon = ExtractIconFromFile(filePath);
+#pragma warning restore IDISP001 // Dispose created
 
+#pragma warning disable IDISP001 // Dispose created
             var vistaIcon = ExtractVistaIcon(icon);
+#pragma warning restore IDISP001 // Dispose created
             if (vistaIcon is null)
             {
+#pragma warning disable IDISP001 // Dispose created
                 var bitmap = ExtractIcon(icon);
+#pragma warning restore IDISP001 // Dispose created
                 return ToBitmapImageWithTransparency(bitmap);
             }
 
@@ -78,7 +84,9 @@ namespace Orc.Notifications
                         int imageOffset = BitConverter.ToInt32(srcBuf, SizeICONDIR + SizeICONDIRENTRY * iIndex + 12);
                         using (var destStream = new MemoryStream())
                         {
+#pragma warning disable IDISP001 // Dispose created
                             var writer = new BinaryWriter(destStream);
+#pragma warning restore IDISP001 // Dispose created
                             writer.Write(srcBuf, imageOffset, imageSize);
                             destStream.Seek(0, SeekOrigin.Begin);
 
