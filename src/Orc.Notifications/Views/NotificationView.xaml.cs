@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NotificationView.xaml.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
     using System.Windows;
     using System.Windows.Input;
@@ -30,7 +23,7 @@ namespace Orc.Notifications
         /// <remarks>
         /// This constructor can be used to use view-model injection.
         /// </remarks>
-        public NotificationView(NotificationViewModel viewModel)
+        public NotificationView(NotificationViewModel? viewModel)
             : base(viewModel)
         {
             InitializeComponent();

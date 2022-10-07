@@ -17,10 +17,10 @@ public static class ModuleInitializer
         serviceLocator.RegisterType<INotificationService, NotificationService>();
         serviceLocator.RegisterType<INotificationPositionService, RightTopNotificationPositionService>();
 
-        var uiVisualizerService = serviceLocator.ResolveType<IUIVisualizerService>();
+        var uiVisualizerService = serviceLocator.ResolveRequiredType<IUIVisualizerService>();
         uiVisualizerService.Register<NotificationViewModel, NotificationView>();
 
-        var languageService = serviceLocator.ResolveType<ILanguageService>();
+        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Notifications", "Orc.Notifications.Properties", "Resources"));
     }
 }

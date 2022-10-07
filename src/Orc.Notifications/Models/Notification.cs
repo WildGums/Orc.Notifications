@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Notification.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
     using System;
     using System.Windows.Input;
@@ -17,6 +10,8 @@ namespace Orc.Notifications
         public Notification()
         {
             Id = UniqueIdentifierHelper.GetUniqueIdentifier<Notification>();
+            Title = string.Empty;
+            Message = string.Empty;
             ShowTime = TimeSpan.FromSeconds(5);
             IsClosable = true;
             Priority = NotificationPriority.Normal;
@@ -33,11 +28,11 @@ namespace Orc.Notifications
 
         public ICommand Command { get; set; }
 
-        public SolidColorBrush BorderBrush { get; set; }
+        public SolidColorBrush? BorderBrush { get; set; }
 
-        public SolidColorBrush BackgroundBrush { get; set; }
+        public SolidColorBrush? BackgroundBrush { get; set; }
 
-        public SolidColorBrush FontBrush { get; set; }
+        public SolidColorBrush? FontBrush { get; set; }
 
         public bool IsClosable { get; set; }
 

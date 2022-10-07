@@ -28,7 +28,7 @@ namespace Orc.Notifications
         #region Methods
         public static Icon ExtractIconFromFile(string filePath)
         {
-            Argument.IsNotNull(() => filePath);
+            ArgumentNullException.ThrowIfNull(filePath);
 
             var extractor = new IconExtractor(filePath);
             var icon = extractor.GetIcon(0);

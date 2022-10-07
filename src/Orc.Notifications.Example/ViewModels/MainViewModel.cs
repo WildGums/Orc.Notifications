@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainViewModel.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.SupportPackage.Example.ViewModels
+﻿namespace Orc.SupportPackage.Example.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows;
@@ -25,8 +19,8 @@ namespace Orc.SupportPackage.Example.ViewModels
 
         public MainViewModel(INotificationService notificationService, IMessageService messageService)
         {
-            Argument.IsNotNull(() => notificationService);
-            Argument.IsNotNull(() => messageService);
+            ArgumentNullException.ThrowIfNull(notificationService);
+            ArgumentNullException.ThrowIfNull(messageService);
 
             _notificationService = notificationService;
             _messageService = messageService;
@@ -42,8 +36,6 @@ namespace Orc.SupportPackage.Example.ViewModels
             // NotificationPriority = NotificationPriority.High;
         }
 
-
-        #region Properties
         [DefaultValue("This is an example title")]
         public string NotificationTitle { get; set; }
 
@@ -61,9 +53,6 @@ namespace Orc.SupportPackage.Example.ViewModels
         [DefaultValue(NotificationPriority.High)]
         public NotificationPriority NotificationPriority { get; set; }
 
-        #endregion
-
-        #region Commands
         private bool OnShowNotificationCanExecute()
         {
             if (string.IsNullOrWhiteSpace(NotificationTitle))
@@ -141,6 +130,5 @@ namespace Orc.SupportPackage.Example.ViewModels
 
             _notificationService.ShowNotification(notification);
         }
-        #endregion
     }
 }

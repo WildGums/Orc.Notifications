@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NotificationEventArgs.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
     using System;
 
@@ -13,6 +6,8 @@ namespace Orc.Notifications
     {
         public NotificationEventArgs(INotification notification)
         {
+            ArgumentNullException.ThrowIfNull(notification);
+
             Notification = notification;
         }
 
