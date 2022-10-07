@@ -26,7 +26,7 @@
 
         public TimeSpan ShowTime { get; set; }
 
-        public ICommand Command { get; set; }
+        public ICommand? Command { get; set; }
 
         public SolidColorBrush? BorderBrush { get; set; }
 

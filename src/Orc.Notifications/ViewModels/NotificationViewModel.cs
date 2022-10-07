@@ -7,14 +7,13 @@
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using System.Windows.Threading;
-    using Catel;
     using Catel.MVVM;
     using Catel.Reflection;
 
     public class NotificationViewModel : ViewModelBase
     {
-        private DispatcherTimer _dispatcherTimer;
-        private readonly Assembly _entryAssembly = AssemblyHelper.GetEntryAssembly();
+        private DispatcherTimer? _dispatcherTimer;
+        private readonly Assembly _entryAssembly = AssemblyHelper.GetRequiredEntryAssembly();
 
         public NotificationViewModel(INotification notification, INotificationService notificationService)
         {
@@ -97,9 +96,13 @@
 
         protected override async Task CloseAsync()
         {
-            _dispatcherTimer.Stop();
-            _dispatcherTimer.Tick -= OnDispatcherTimerTick;
-            _dispatcherTimer = null;
+            var dispatcherTimer = _dispatcherTimer;
+            if (dispatcherTimer is not null)
+            {
+                dispatcherTimer.Stop();
+                dispatcherTimer.Tick -= OnDispatcherTimerTick;
+                _dispatcherTimer = null;
+            }
 
             await base.CloseAsync();
         }
@@ -112,7 +115,7 @@
 #pragma warning restore 4014
         }
 
-        private BitmapImage ExtractLargestIcon()
+        private BitmapImage? ExtractLargestIcon()
         {
             return IconHelper.ExtractLargestIconFromFile(_entryAssembly.Location);
         }

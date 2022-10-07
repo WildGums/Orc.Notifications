@@ -5,7 +5,7 @@
 
     internal static class ColorExtensions
     {
-        private static ResourceDictionary _accentColorResourceDictionary;
+        private static ResourceDictionary? _accentColorResourceDictionary;
 
         public static ResourceDictionary CreateAccentColorResourceDictionary(this Color color)
         {

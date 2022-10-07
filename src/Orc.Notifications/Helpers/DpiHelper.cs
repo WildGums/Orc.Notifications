@@ -20,8 +20,8 @@
                 throw new InvalidOperationException($"Cannot find property DpiY");
             }
 
-            DpiX = (int)dpiXProperty.GetValue(null, null);
-            DpiY = (int)dpiYProperty.GetValue(null, null);
+            DpiX = (int?)dpiXProperty.GetValue(null, null) ?? 96;
+            DpiY = (int?)dpiYProperty.GetValue(null, null) ?? 96;
         }
 
         public static int DpiX { get; private set; }

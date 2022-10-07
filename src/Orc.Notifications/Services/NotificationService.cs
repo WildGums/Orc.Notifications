@@ -138,7 +138,7 @@
                     return ttplaces;
                 };
 
-                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
+                var notificationViewModel = _viewModelFactory.CreateRequiredViewModel<NotificationViewModel>(notification, null);
                 notificationViewModel.ClosedAsync += async (sender, e) =>
                 {
                     Log.Debug($"Hiding notification '{notification}'");

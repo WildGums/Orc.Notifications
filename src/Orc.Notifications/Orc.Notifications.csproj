@@ -8,7 +8,6 @@
     <PackageVersion>1.0.0-alpha0001</PackageVersion>
     <Description>Notifications library.</Description>
     <PackageTags>orc;notifications</PackageTags>
-    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -27,7 +26,7 @@
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
     <PackageReference Include="Catel.MVVM" Version="6.0.0-alpha1005" />
     <PackageReference Include="Fody" Version="6.6.4" PrivateAssets="all">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <IncludeAssets>runtime; build; native; conteentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="LoadAssembliesOnStartup.Fody" Version="4.6.0" PrivateAssets="all" />
     <PackageReference Include="MethodTimer.Fody" Version="3.2.0" PrivateAssets="all" />
@@ -36,6 +35,7 @@
     <PackageReference Include="Orc.Theming" Version="5.0.0-alpha0016" />
   </ItemGroup>
 
+  <Import Project="$(MSBuildProjectDirectory)\..\Directory.Build.nullable.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.Build.nullable.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.explicit.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props" Condition="Exists('$(MSBuildProjectDirectory)\..\Directory.build.shared.mat.props')" />
 </Project>

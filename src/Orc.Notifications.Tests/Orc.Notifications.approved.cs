@@ -54,7 +54,7 @@ namespace Orc.Notifications
         public Notification() { }
         public System.Windows.Media.SolidColorBrush? BackgroundBrush { get; set; }
         public System.Windows.Media.SolidColorBrush? BorderBrush { get; set; }
-        public System.Windows.Input.ICommand Command { get; set; }
+        public System.Windows.Input.ICommand? Command { get; set; }
         public System.Windows.Media.SolidColorBrush? FontBrush { get; set; }
         public int Id { get; }
         public bool IsClosable { get; set; }
