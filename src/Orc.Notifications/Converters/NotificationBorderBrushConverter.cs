@@ -6,7 +6,7 @@
 
     public class NotificationBorderBrushConverter : ValueConverterBase<INotification>
     {
-        protected override object Convert(INotification value, Type targetType, object parameter)
+        protected override object? Convert(INotification? value, Type targetType, object? parameter)
         {
             var borderBrush = value?.BorderBrush;
             if (borderBrush is not null)

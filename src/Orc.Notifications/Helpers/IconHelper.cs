@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DpiHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
     using System.ComponentModel;
     using System.Drawing;
@@ -16,19 +9,16 @@ namespace Orc.Notifications
     using System.Windows;
     using System.Windows.Interop;
     using System.Windows.Media.Imaging;
-    using Catel;
     using Point = System.Drawing.Point;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
 
     internal static class IconHelper
     {
-        #region Methods
-        public static Icon ExtractIconFromFile(string filePath)
+        public static Icon? ExtractIconFromFile(string filePath)
         {
-            Argument.IsNotNull(() => filePath);
+            ArgumentNullException.ThrowIfNull(filePath);
 
             var extractor = new IconExtractor(filePath);
             var icon = extractor.GetIcon(0);
@@ -36,10 +26,14 @@ namespace Orc.Notifications
             return icon;
         }
 
-        public static BitmapImage ExtractLargestIconFromFile(string filePath)
+        public static BitmapImage? ExtractLargestIconFromFile(string filePath)
         {
 #pragma warning disable IDISP001 // Dispose created
             var icon = ExtractIconFromFile(filePath);
+            if (icon is null)
+            {
+                return null;
+            }
 #pragma warning restore IDISP001 // Dispose created
 
 #pragma warning disable IDISP001 // Dispose created
@@ -49,6 +43,11 @@ namespace Orc.Notifications
             {
 #pragma warning disable IDISP001 // Dispose created
                 var bitmap = ExtractIcon(icon);
+                if (bitmap is null)
+                {
+                    return null;
+                }
+
 #pragma warning restore IDISP001 // Dispose created
                 return ToBitmapImageWithTransparency(bitmap);
             }
@@ -56,13 +55,13 @@ namespace Orc.Notifications
             return ToBitmapImageWithTransparency(vistaIcon);
         }
 
-        private static Bitmap ExtractVistaIcon(Icon icon)
+        private static Bitmap? ExtractVistaIcon(Icon icon)
         {
-            Bitmap extractedIcon = null;
+            Bitmap? extractedIcon = null;
 
             try
             {
-                byte[] srcBuf = null;
+                byte[] srcBuf;
                 using (var stream = new MemoryStream())
                 {
                     icon.Save(stream);
@@ -104,7 +103,7 @@ namespace Orc.Notifications
             return extractedIcon;
         }
 
-        private static Bitmap ExtractIcon(Icon icon)
+        private static Bitmap? ExtractIcon(Icon icon)
         {
             var bitmapSource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             return ToBitmap(bitmapSource);
@@ -112,6 +111,8 @@ namespace Orc.Notifications
 
         private static Bitmap ToBitmap(BitmapSource source)
         {
+            ArgumentNullException.ThrowIfNull(source);
+
             var bitmap = new Bitmap(source.PixelWidth, source.PixelHeight, PixelFormat.Format32bppPArgb);
             var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.WriteOnly, PixelFormat.Format32bppPArgb);
             source.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
@@ -139,7 +140,6 @@ namespace Orc.Notifications
                 return result;
             }
         }
-        #endregion
 
         #region Nested type: ENUMRESNAMEPROC
         [UnmanagedFunctionPointer(CallingConvention.Winapi, SetLastError = true, CharSet = CharSet.Unicode)]
@@ -169,7 +169,7 @@ namespace Orc.Notifications
             // Fields
 
             #region Fields
-            private byte[][] iconData = null; // Binary data of each icon.
+            private byte[][]? _iconData = null; // Binary data of each icon.
             #endregion
 
             #region Constructors
@@ -190,14 +190,14 @@ namespace Orc.Notifications
             /// <summary>
             /// Gets the full path of the associated file.
             /// </summary>
-            public string FileName { get; private set; }
+            public string? FileName { get; private set; }
 
             /// <summary>
             /// Gets the count of the icons in the associated file.
             /// </summary>
             public int Count
             {
-                get { return iconData.Length; }
+                get { return _iconData?.Length ?? 0; }
             }
             #endregion
 
@@ -208,8 +208,13 @@ namespace Orc.Notifications
             /// <param name="index">Zero based index of the icon to be extracted.</param>
             /// <returns>A System.Drawing.Icon object.</returns>
             /// <remarks>Always returns new copy of the Icon. It should be disposed by the user.</remarks>
-            public Icon GetIcon(int index)
+            public Icon? GetIcon(int index)
             {
+                if (_iconData is null)
+                {
+                    return null;
+                }
+
                 if (index < 0 || Count <= index)
                 {
                     throw new ArgumentOutOfRangeException("index");
@@ -217,7 +222,7 @@ namespace Orc.Notifications
 
                 // Create an Icon based on a .ico file in memory.
 
-                using (var ms = new MemoryStream(iconData[index]))
+                using (var ms = new MemoryStream(_iconData[index]))
                 {
                     return new Icon(ms);
                 }
@@ -306,7 +311,7 @@ namespace Orc.Notifications
                     };
                     NativeMethods.EnumResourceNames(hModule, RT_GROUP_ICON, callback, IntPtr.Zero);
 
-                    iconData = tmpData.ToArray();
+                    _iconData = tmpData.ToArray();
                 }
                 finally
                 {

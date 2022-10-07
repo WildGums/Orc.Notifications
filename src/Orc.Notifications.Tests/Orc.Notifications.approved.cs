@@ -16,10 +16,10 @@ namespace Orc.Notifications
     }
     public interface INotification
     {
-        System.Windows.Media.SolidColorBrush BackgroundBrush { get; set; }
-        System.Windows.Media.SolidColorBrush BorderBrush { get; set; }
-        System.Windows.Input.ICommand Command { get; set; }
-        System.Windows.Media.SolidColorBrush FontBrush { get; set; }
+        System.Windows.Media.SolidColorBrush? BackgroundBrush { get; set; }
+        System.Windows.Media.SolidColorBrush? BorderBrush { get; set; }
+        System.Windows.Input.ICommand? Command { get; set; }
+        System.Windows.Media.SolidColorBrush? FontBrush { get; set; }
         bool IsClosable { get; set; }
         string Message { get; set; }
         Orc.Notifications.NotificationPriority Priority { get; set; }
@@ -37,8 +37,8 @@ namespace Orc.Notifications
         System.Windows.Media.SolidColorBrush DefaultBorderBrush { get; set; }
         System.Windows.Media.SolidColorBrush DefaultFontBrush { get; set; }
         bool IsSuspended { get; }
-        event System.EventHandler<Orc.Notifications.NotificationEventArgs> ClosedNotification;
-        event System.EventHandler<Orc.Notifications.NotificationEventArgs> OpenedNotification;
+        event System.EventHandler<Orc.Notifications.NotificationEventArgs>? ClosedNotification;
+        event System.EventHandler<Orc.Notifications.NotificationEventArgs>? OpenedNotification;
         void Resume();
         void ShowNotification(Orc.Notifications.INotification notification);
         void Suspend();
@@ -52,10 +52,10 @@ namespace Orc.Notifications
     public class Notification : Orc.Notifications.INotification
     {
         public Notification() { }
-        public System.Windows.Media.SolidColorBrush BackgroundBrush { get; set; }
-        public System.Windows.Media.SolidColorBrush BorderBrush { get; set; }
-        public System.Windows.Input.ICommand Command { get; set; }
-        public System.Windows.Media.SolidColorBrush FontBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush? BackgroundBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush? BorderBrush { get; set; }
+        public System.Windows.Input.ICommand? Command { get; set; }
+        public System.Windows.Media.SolidColorBrush? FontBrush { get; set; }
         public int Id { get; }
         public bool IsClosable { get; set; }
         public Orc.Notifications.NotificationLevel Level { get; set; }
@@ -68,7 +68,7 @@ namespace Orc.Notifications
     public class NotificationBorderBrushConverter : Catel.MVVM.Converters.ValueConverterBase<Orc.Notifications.INotification>
     {
         public NotificationBorderBrushConverter() { }
-        protected override object Convert(Orc.Notifications.INotification value, System.Type targetType, object parameter) { }
+        protected override object? Convert(Orc.Notifications.INotification? value, System.Type targetType, object? parameter) { }
     }
     public class NotificationEventArgs : System.EventArgs
     {
@@ -97,8 +97,8 @@ namespace Orc.Notifications
         public System.Windows.Media.SolidColorBrush DefaultBorderBrush { get; set; }
         public System.Windows.Media.SolidColorBrush DefaultFontBrush { get; set; }
         public bool IsSuspended { get; }
-        public event System.EventHandler<Orc.Notifications.NotificationEventArgs> ClosedNotification;
-        public event System.EventHandler<Orc.Notifications.NotificationEventArgs> OpenedNotification;
+        public event System.EventHandler<Orc.Notifications.NotificationEventArgs>? ClosedNotification;
+        public event System.EventHandler<Orc.Notifications.NotificationEventArgs>? OpenedNotification;
         protected virtual bool HasActiveWindows() { }
         public void Resume() { }
         public void ShowNotification(Orc.Notifications.INotification notification) { }
@@ -112,27 +112,27 @@ namespace Orc.Notifications
     public class NotificationView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public NotificationView() { }
-        public NotificationView(Orc.Notifications.NotificationViewModel viewModel) { }
+        public NotificationView(Orc.Notifications.NotificationViewModel? viewModel) { }
         public void InitializeComponent() { }
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
     }
     public class NotificationViewModel : Catel.MVVM.ViewModelBase
     {
-        public static readonly Catel.Data.PropertyData AppIconProperty;
-        public static readonly Catel.Data.PropertyData BackgroundBrushProperty;
-        public static readonly Catel.Data.PropertyData BorderBrushProperty;
-        public static readonly Catel.Data.PropertyData FontBrushProperty;
-        public static readonly Catel.Data.PropertyData IsClosableProperty;
-        public static readonly Catel.Data.PropertyData MessageProperty;
-        public static readonly Catel.Data.PropertyData NotificationProperty;
-        public static readonly Catel.Data.PropertyData ShowTimeProperty;
+        public static readonly Catel.Data.IPropertyData AppIconProperty;
+        public static readonly Catel.Data.IPropertyData BackgroundBrushProperty;
+        public static readonly Catel.Data.IPropertyData BorderBrushProperty;
+        public static readonly Catel.Data.IPropertyData FontBrushProperty;
+        public static readonly Catel.Data.IPropertyData IsClosableProperty;
+        public static readonly Catel.Data.IPropertyData MessageProperty;
+        public static readonly Catel.Data.IPropertyData NotificationProperty;
+        public static readonly Catel.Data.IPropertyData ShowTimeProperty;
         public NotificationViewModel(Orc.Notifications.INotification notification, Orc.Notifications.INotificationService notificationService) { }
-        public System.Windows.Media.Imaging.BitmapSource AppIcon { get; }
-        public System.Windows.Media.SolidColorBrush BackgroundBrush { get; }
-        public System.Windows.Media.SolidColorBrush BorderBrush { get; }
+        public System.Windows.Media.Imaging.BitmapSource? AppIcon { get; }
+        public System.Windows.Media.SolidColorBrush? BackgroundBrush { get; }
+        public System.Windows.Media.SolidColorBrush? BorderBrush { get; }
         public Catel.MVVM.TaskCommand ClosePopup { get; }
-        public System.Windows.Input.ICommand Command { get; }
-        public System.Windows.Media.SolidColorBrush FontBrush { get; }
+        public System.Windows.Input.ICommand? Command { get; }
+        public System.Windows.Media.SolidColorBrush? FontBrush { get; }
         public bool IsClosable { get; }
         public string Message { get; }
         public Orc.Notifications.INotification Notification { get; }

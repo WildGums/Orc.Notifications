@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NotificationService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
     using System;
     using System.Collections.Generic;
@@ -26,7 +19,6 @@ namespace Orc.Notifications
 
     public class NotificationService : INotificationService
     {
-        #region Fields
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         private static readonly Size NotificationSize = new Size(Orc.Notifications.NotificationSize.Width, Orc.Notifications.NotificationSize.Height);
@@ -39,15 +31,13 @@ namespace Orc.Notifications
 
         private readonly Queue<INotification> _notificationsQueue = new Queue<INotification>();
 
-        private Window _mainWindow;
-        #endregion
-
-        #region Constructors
+        private Window? _mainWindow;
+ 
         public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService, INotificationPositionService notificationPositionService)
         {
-            Argument.IsNotNull(() => viewModelFactory);
-            Argument.IsNotNull(() => dispatcherService);
-            Argument.IsNotNull(() => notificationPositionService);
+            ArgumentNullException.ThrowIfNull(viewModelFactory);
+            ArgumentNullException.ThrowIfNull(dispatcherService);
+            ArgumentNullException.ThrowIfNull(notificationPositionService);
 
             _viewModelFactory = viewModelFactory;
             _dispatcherService = dispatcherService;
@@ -75,9 +65,6 @@ namespace Orc.Notifications
             }
         }
 
-        #endregion
-
-        #region Properties
         public ObservableCollection<INotification> CurrentNotifications { get; private set; }
 
         public SolidColorBrush DefaultBorderBrush { get; set; }
@@ -87,15 +74,11 @@ namespace Orc.Notifications
         public SolidColorBrush DefaultFontBrush { get; set; }
 
         public bool IsSuspended { get; private set; }
-        #endregion
+        
+        public event EventHandler<NotificationEventArgs>? OpenedNotification;
 
-        #region Events
-        public event EventHandler<NotificationEventArgs> OpenedNotification;
+        public event EventHandler<NotificationEventArgs>? ClosedNotification;
 
-        public event EventHandler<NotificationEventArgs> ClosedNotification;
-        #endregion
-
-        #region Methods
         public void Suspend()
         {
             IsSuspended = true;
@@ -114,7 +97,7 @@ namespace Orc.Notifications
 
         public void ShowNotification(INotification notification)
         {
-            Argument.IsNotNull(() => notification);
+            ArgumentNullException.ThrowIfNull(notification);
 
             if (IsSuspended)
             {
@@ -155,7 +138,7 @@ namespace Orc.Notifications
                     return ttplaces;
                 };
 
-                var notificationViewModel = _viewModelFactory.CreateViewModel<NotificationViewModel>(notification, null);
+                var notificationViewModel = _viewModelFactory.CreateRequiredViewModel<NotificationViewModel>(notification, null);
                 notificationViewModel.ClosedAsync += async (sender, e) =>
                 {
                     Log.Debug($"Hiding notification '{notification}'");
@@ -229,6 +212,5 @@ namespace Orc.Notifications
                 ClosedNotification?.Invoke(this, new NotificationEventArgs(notification));
             }
         }
-        #endregion
     }
 }

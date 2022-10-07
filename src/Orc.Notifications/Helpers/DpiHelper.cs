@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DpiHelper.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
+    using System;
     using System.Reflection;
     using System.Windows;
 
@@ -15,10 +9,19 @@ namespace Orc.Notifications
         static DpiHelper()
         {
             var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
-            var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+            if (dpiXProperty is null)
+            {
+                throw new InvalidOperationException($"Cannot find property DpiX");
+            }
 
-            DpiX = (int)dpiXProperty.GetValue(null, null);
-            DpiY = (int)dpiYProperty.GetValue(null, null);
+            var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+            if (dpiYProperty is null)
+            {
+                throw new InvalidOperationException($"Cannot find property DpiY");
+            }
+
+            DpiX = (int?)dpiXProperty.GetValue(null, null) ?? 96;
+            DpiY = (int?)dpiYProperty.GetValue(null, null) ?? 96;
         }
 
         public static int DpiX { get; private set; }

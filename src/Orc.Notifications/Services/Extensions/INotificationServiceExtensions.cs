@@ -1,19 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="INotificationServiceExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Notifications
+﻿namespace Orc.Notifications
 {
-    using Catel;
+    using System;
 
     public static class INotificationServiceExtensions
     {
         public static void ShowNotification(this INotificationService notificationService, string title, string message)
         {
-            Argument.IsNotNull(() => notificationService);
+            ArgumentNullException.ThrowIfNull(notificationService);
 
             var notification = new Notification
             {
@@ -26,7 +19,7 @@ namespace Orc.Notifications
 
         public static void ShowWarningNotification(this INotificationService notificationService, string title, string message)
         {
-            Argument.IsNotNull(() => notificationService);
+            ArgumentNullException.ThrowIfNull(notificationService);
 
             var notification = new WarningNotification
             {
@@ -39,7 +32,7 @@ namespace Orc.Notifications
 
         public static void ShowErrorNotification(this INotificationService notificationService, string title, string message)
         {
-            Argument.IsNotNull(() => notificationService);
+            ArgumentNullException.ThrowIfNull(notificationService);
 
             var notification = new ErrorNotification
             {
