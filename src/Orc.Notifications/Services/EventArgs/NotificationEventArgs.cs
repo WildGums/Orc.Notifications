@@ -1,16 +1,15 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+using System;
+
+public class NotificationEventArgs : EventArgs
 {
-    using System;
-
-    public class NotificationEventArgs : EventArgs
+    public NotificationEventArgs(INotification notification)
     {
-        public NotificationEventArgs(INotification notification)
-        {
-            ArgumentNullException.ThrowIfNull(notification);
+        ArgumentNullException.ThrowIfNull(notification);
 
-            Notification = notification;
-        }
-
-        public INotification Notification { get; private set; }
+        Notification = notification;
     }
+
+    public INotification Notification { get; }
 }

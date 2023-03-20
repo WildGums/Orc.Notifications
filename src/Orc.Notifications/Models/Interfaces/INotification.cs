@@ -1,27 +1,26 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+using System;
+using System.Windows.Input;
+using System.Windows.Media;
+
+public interface INotification
 {
-    using System;
-    using System.Windows.Input;
-    using System.Windows.Media;
+    string Title { get; set; }
 
-    public interface INotification
-    {
-        string Title { get; set; }
+    string Message { get; set; }
 
-        string Message { get; set; }
+    ICommand? Command { get; set; }
 
-        ICommand? Command { get; set; }
+    TimeSpan ShowTime { get; set; }
 
-        TimeSpan ShowTime { get; set; }
+    SolidColorBrush? BorderBrush { get; set; }
 
-        SolidColorBrush? BorderBrush { get; set; }
+    SolidColorBrush? BackgroundBrush { get; set; }
 
-        SolidColorBrush? BackgroundBrush { get; set; }
+    SolidColorBrush? FontBrush { get; set; }
 
-        SolidColorBrush? FontBrush { get; set; }
+    bool IsClosable { get; set; }
 
-        bool IsClosable { get; set; }
-
-        NotificationPriority Priority { get; set; }
-    }
+    NotificationPriority Priority { get; set; }
 }

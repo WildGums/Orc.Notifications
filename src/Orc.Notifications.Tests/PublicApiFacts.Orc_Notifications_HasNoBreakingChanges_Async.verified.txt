@@ -118,14 +118,6 @@ namespace Orc.Notifications
     }
     public class NotificationViewModel : Catel.MVVM.ViewModelBase
     {
-        public static readonly Catel.Data.IPropertyData AppIconProperty;
-        public static readonly Catel.Data.IPropertyData BackgroundBrushProperty;
-        public static readonly Catel.Data.IPropertyData BorderBrushProperty;
-        public static readonly Catel.Data.IPropertyData FontBrushProperty;
-        public static readonly Catel.Data.IPropertyData IsClosableProperty;
-        public static readonly Catel.Data.IPropertyData MessageProperty;
-        public static readonly Catel.Data.IPropertyData NotificationProperty;
-        public static readonly Catel.Data.IPropertyData ShowTimeProperty;
         public NotificationViewModel(Orc.Notifications.INotification notification, Orc.Notifications.INotificationService notificationService) { }
         public System.Windows.Media.Imaging.BitmapSource? AppIcon { get; }
         public System.Windows.Media.SolidColorBrush? BackgroundBrush { get; }
@@ -139,8 +131,10 @@ namespace Orc.Notifications
         public Catel.MVVM.Command PauseTimer { get; }
         public Catel.MVVM.Command ResumeTimer { get; }
         public System.TimeSpan ShowTime { get; }
+        public override string Title { get; }
         protected override System.Threading.Tasks.Task CloseAsync() { }
         protected override System.Threading.Tasks.Task InitializeAsync() { }
+        protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
     public class RightTopNotificationPositionService : Orc.Notifications.INotificationPositionService
     {

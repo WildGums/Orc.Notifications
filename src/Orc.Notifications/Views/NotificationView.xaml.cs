@@ -1,60 +1,52 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+using System.Windows;
+using System.Windows.Input;
+
+public partial class NotificationView
 {
-    using System.Windows;
-    using System.Windows.Input;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NotificationView"/> class.
+    /// </summary>
+    public NotificationView()
+        : this(null)
+    {
+    }
 
     /// <summary>
-    /// Interaction logic for NotificationView.xaml.
+    /// Initializes a new instance of the <see cref="NotificationView"/> class.
     /// </summary>
-    public partial class NotificationView
+    /// <param name="viewModel">The view model to inject.</param>
+    /// <remarks>
+    /// This constructor can be used to use view-model injection.
+    /// </remarks>
+    public NotificationView(NotificationViewModel? viewModel)
+        : base(viewModel)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NotificationView"/> class.
-        /// </summary>
-        public NotificationView()
-            : this(null)
+        InitializeComponent();
+    }
+
+    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    {
+        ActivatePreviousWindow();
+
+        var vm = ViewModel as NotificationViewModel;
+        var command = vm?.Command;
+        command?.Execute(null);
+
+        e.Handled = true;
+    }
+
+    private static void ActivatePreviousWindow()
+    {
+        var currentWindows = Application.Current.Windows;
+        var count = currentWindows.Count - 1;
+        if (count < 0)
         {
+            return;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NotificationView"/> class.
-        /// </summary>
-        /// <param name="viewModel">The view model to inject.</param>
-        /// <remarks>
-        /// This constructor can be used to use view-model injection.
-        /// </remarks>
-        public NotificationView(NotificationViewModel? viewModel)
-            : base(viewModel)
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            ActivatePreviousWindow();
-
-            var vm = ViewModel as NotificationViewModel;
-            if (vm is not null)
-            {
-                var command = vm.Command;
-                if (command is not null)
-                {
-                    command.Execute(null);
-                }
-            }
-
-            e.Handled = true;
-        }
-
-        private void ActivatePreviousWindow()
-        {
-            var currentWindows = Application.Current.Windows;
-            var count = currentWindows.Count - 1;
-            if (count >= 0)
-            {
-                var window = currentWindows[count];
-                window.Activate();
-            }
-        }
+        var window = currentWindows[count];
+        window.Activate();
     }
 }

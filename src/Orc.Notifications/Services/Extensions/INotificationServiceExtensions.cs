@@ -1,46 +1,45 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+using System;
+
+public static class INotificationServiceExtensions
 {
-    using System;
-
-    public static class INotificationServiceExtensions
+    public static void ShowNotification(this INotificationService notificationService, string title, string message)
     {
-        public static void ShowNotification(this INotificationService notificationService, string title, string message)
+        ArgumentNullException.ThrowIfNull(notificationService);
+
+        var notification = new Notification
         {
-            ArgumentNullException.ThrowIfNull(notificationService);
+            Title = title,
+            Message = message
+        };
 
-            var notification = new Notification
-            {
-                Title = title,
-                Message = message
-            };
+        notificationService.ShowNotification(notification);
+    }
 
-            notificationService.ShowNotification(notification);
-        }
+    public static void ShowWarningNotification(this INotificationService notificationService, string title, string message)
+    {
+        ArgumentNullException.ThrowIfNull(notificationService);
 
-        public static void ShowWarningNotification(this INotificationService notificationService, string title, string message)
+        var notification = new WarningNotification
         {
-            ArgumentNullException.ThrowIfNull(notificationService);
+            Title = title,
+            Message = message
+        };
 
-            var notification = new WarningNotification
-            {
-                Title = title,
-                Message = message
-            };
+        notificationService.ShowNotification(notification);
+    }
 
-            notificationService.ShowNotification(notification);
-        }
+    public static void ShowErrorNotification(this INotificationService notificationService, string title, string message)
+    {
+        ArgumentNullException.ThrowIfNull(notificationService);
 
-        public static void ShowErrorNotification(this INotificationService notificationService, string title, string message)
+        var notification = new ErrorNotification
         {
-            ArgumentNullException.ThrowIfNull(notificationService);
+            Title = title,
+            Message = message
+        };
 
-            var notification = new ErrorNotification
-            {
-                Title = title,
-                Message = message
-            };
-
-            notificationService.ShowNotification(notification);
-        }
+        notificationService.ShowNotification(notification);
     }
 }

@@ -1,13 +1,12 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+public enum NotificationPriority
 {
-    public enum NotificationPriority
-    {
-        Low,
+    Low,
 
-        Normal,
+    Normal,
 
-        High,
+    High,
 
-        Critical
-    }
+    Critical
 }
