@@ -1,216 +1,216 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using Catel.Logging;
+using Catel.MVVM;
+using Catel.Services;
+using Size = System.Drawing.Size;
+
+public class NotificationService : INotificationService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls.Primitives;
-    using System.Windows.Media;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    using Catel;
-    using Catel.Logging;
-    using Catel.MVVM;
-    using Catel.Services;
+    private static readonly Size NotificationSize = new(Notifications.NotificationSize.Width, Notifications.NotificationSize.Height);
 
-    using Size = System.Drawing.Size;
-    using Window = System.Windows.Window;
+    private readonly IDispatcherService _dispatcherService;
 
-    public class NotificationService : INotificationService
+    private readonly INotificationPositionService _notificationPositionService;
+
+    private readonly Queue<INotification> _notificationsQueue = new();
+
+    private readonly IViewModelFactory _viewModelFactory;
+
+    private Window? _mainWindow;
+
+    public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService, INotificationPositionService notificationPositionService)
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        ArgumentNullException.ThrowIfNull(viewModelFactory);
+        ArgumentNullException.ThrowIfNull(dispatcherService);
+        ArgumentNullException.ThrowIfNull(notificationPositionService);
 
-        private static readonly Size NotificationSize = new Size(Orc.Notifications.NotificationSize.Width, Orc.Notifications.NotificationSize.Height);
+        _viewModelFactory = viewModelFactory;
+        _dispatcherService = dispatcherService;
+        _notificationPositionService = notificationPositionService;
 
-        private readonly IViewModelFactory _viewModelFactory;
+        CurrentNotifications = new ObservableCollection<INotification>();
 
-        private readonly IDispatcherService _dispatcherService;
+        DefaultBorderBrush = Brushes.Black;
+        DefaultBackgroundBrush = Brushes.DodgerBlue;
+        DefaultFontBrush = Brushes.WhiteSmoke;
 
-        private readonly INotificationPositionService _notificationPositionService;
-
-        private readonly Queue<INotification> _notificationsQueue = new Queue<INotification>();
-
-        private Window? _mainWindow;
- 
-        public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService, INotificationPositionService notificationPositionService)
+        var app = Application.Current;
+        if (app is null)
         {
-            ArgumentNullException.ThrowIfNull(viewModelFactory);
-            ArgumentNullException.ThrowIfNull(dispatcherService);
-            ArgumentNullException.ThrowIfNull(notificationPositionService);
-
-            _viewModelFactory = viewModelFactory;
-            _dispatcherService = dispatcherService;
-            _notificationPositionService = notificationPositionService;
-
-            CurrentNotifications = new ObservableCollection<INotification>();
-
-            DefaultBorderBrush = Brushes.Black;
-            DefaultBackgroundBrush = Brushes.DodgerBlue;
-            DefaultFontBrush = Brushes.WhiteSmoke;
-
-            var app = Application.Current;
-            if (app is not null)
-            {
-                var accentColorBrush = app.TryFindResource("AccentColorBrush") as SolidColorBrush;
-                if (accentColorBrush is not null)
-                {
-                    DefaultBorderBrush = accentColorBrush;
-                    DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                    DefaultFontBrush = Brushes.Black;
-                    accentColorBrush.Color.CreateAccentColorResourceDictionary();
-                }
-
-                _mainWindow = app.MainWindow;
-            }
+            return;
         }
 
-        public ObservableCollection<INotification> CurrentNotifications { get; private set; }
-
-        public SolidColorBrush DefaultBorderBrush { get; set; }
-
-        public SolidColorBrush DefaultBackgroundBrush { get; set; }
-
-        public SolidColorBrush DefaultFontBrush { get; set; }
-
-        public bool IsSuspended { get; private set; }
-        
-        public event EventHandler<NotificationEventArgs>? OpenedNotification;
-
-        public event EventHandler<NotificationEventArgs>? ClosedNotification;
-
-        public void Suspend()
+        if (app.TryFindResource("AccentColorBrush") is SolidColorBrush accentColorBrush)
         {
-            IsSuspended = true;
+            DefaultBorderBrush = accentColorBrush;
+            DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
+            DefaultFontBrush = Brushes.Black;
+            accentColorBrush.Color.CreateAccentColorResourceDictionary();
         }
 
-        public void Resume()
-        {
-            IsSuspended = false;
+        _mainWindow = app.MainWindow;
+    }
 
-            while (_notificationsQueue.Count > 0)
-            {
-                var notification = _notificationsQueue.Dequeue();
-                ShowNotification(notification);
-            }
+    public ObservableCollection<INotification> CurrentNotifications { get; }
+
+    public SolidColorBrush DefaultBorderBrush { get; set; }
+
+    public SolidColorBrush DefaultBackgroundBrush { get; set; }
+
+    public SolidColorBrush DefaultFontBrush { get; set; }
+
+    public bool IsSuspended { get; private set; }
+
+    public event EventHandler<NotificationEventArgs>? OpenedNotification;
+
+    public event EventHandler<NotificationEventArgs>? ClosedNotification;
+
+    public void Suspend()
+    {
+        IsSuspended = true;
+    }
+
+    public void Resume()
+    {
+        IsSuspended = false;
+
+        while (_notificationsQueue.Count > 0)
+        {
+            var notification = _notificationsQueue.Dequeue();
+            ShowNotification(notification);
+        }
+    }
+
+    public void ShowNotification(INotification notification)
+    {
+        ArgumentNullException.ThrowIfNull(notification);
+
+        if (IsSuspended)
+        {
+            Log.Debug("Notifications are suspended, queueing notification");
+
+            _notificationsQueue.Enqueue(notification);
+
+            return;
         }
 
-        public void ShowNotification(INotification notification)
+        _dispatcherService.BeginInvoke(() =>
         {
-            ArgumentNullException.ThrowIfNull(notification);
+            EnsureMainWindow();
 
-            if (IsSuspended)
+            var hasActiveWindows = HasActiveWindows();
+            if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
             {
-                Log.Debug("Notifications are suspended, queueing notification");
-
-                _notificationsQueue.Enqueue(notification);
-
+                Log.Debug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
                 return;
             }
 
-            _dispatcherService.BeginInvoke(() =>
+            Log.Debug($"Showing notification '{notification}'");
+
+            var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
+
+            var popup = new Popup
             {
-                EnsureMainWindow();
+                AllowsTransparency = true,
+                Placement = PlacementMode.Custom
+            };
 
-                var hasActiveWindows = HasActiveWindows();
-                if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
+            popup.CustomPopupPlacementCallback += (_, _, _) =>
+            {
+                var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
+                var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
+
+                var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+
+                var ttplaces = new[]
                 {
-                    Log.Debug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
-                    return;
-                }
-
-                Log.Debug($"Showing notification '{notification}'");
-
-                var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
-
-                var popup = new Popup();
-
-                popup.AllowsTransparency = true;
-                popup.Placement = PlacementMode.Custom;
-                popup.CustomPopupPlacementCallback += (popupSize, targetSize, offset) =>
-                {
-                    var x = DpiHelper.CalculateSize(DpiHelper.DpiX, notificationLocation.X);
-                    var y = DpiHelper.CalculateSize(DpiHelper.DpiY, notificationLocation.Y);
-
-                    var popupPlacement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
-
-                    var ttplaces = new[] { popupPlacement };
-                    return ttplaces;
+                    popupPlacement
                 };
+                return ttplaces;
+            };
 
-                var notificationViewModel = _viewModelFactory.CreateRequiredViewModel<NotificationViewModel>(notification, null);
-                notificationViewModel.ClosedAsync += async (sender, e) =>
-                {
-                    Log.Debug($"Hiding notification '{notification}'");
+            var notificationViewModel = _viewModelFactory.CreateRequiredViewModel<NotificationViewModel>(notification);
+            notificationViewModel.ClosedAsync += async (_, _) =>
+            {
+                Log.Debug($"Hiding notification '{notification}'");
 
-                    popup.IsOpen = false;
-                };
+                popup.IsOpen = false;
+            };
 
-                var notificationView = new NotificationView();
-                notificationView.DataContext = notificationViewModel;
-                notificationView.Unloaded += OnNotificationViewUnloaded;
+            var notificationView = new NotificationView
+            {
+                DataContext = notificationViewModel
+            };
+            notificationView.Unloaded += OnNotificationViewUnloaded;
 
-                popup.Child = notificationView;
+            popup.Child = notificationView;
 
-                popup.IsOpen = true;
+            popup.IsOpen = true;
 
-                OpenedNotification?.Invoke(this, new NotificationEventArgs(notification));
+            OpenedNotification?.Invoke(this, new NotificationEventArgs(notification));
 
-                CurrentNotifications.Add(notification);
-            });
-        }
+            CurrentNotifications.Add(notification);
+        });
+    }
 
-        protected virtual bool HasActiveWindows()
+    protected virtual bool HasActiveWindows()
+    {
+        var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) is not null;
+        return hasActiveWindows;
+    }
+
+    private void EnsureMainWindow()
+    {
+        if (_mainWindow is not null)
         {
-            var hasActiveWindows = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive) is not null;
-            return hasActiveWindows;
+            return;
         }
 
-        private void EnsureMainWindow()
+        var application = Application.Current;
+        if (application is not null)
         {
-            if (_mainWindow is not null)
-            {
-                return;
-            }
-
-            var application = Application.Current;
-            if (application is not null)
-            {
-                _mainWindow = application.MainWindow;
-            }
+            _mainWindow = application.MainWindow;
         }
+    }
 
-        private void OnNotificationViewUnloaded(object sender, EventArgs e)
+    private void OnNotificationViewUnloaded(object sender, EventArgs e)
+    {
+        if (sender is not NotificationView notificationView)
         {
-            var notificationView = sender as NotificationView;
-            if (notificationView is null)
+            return;
+        }
+
+        notificationView.Unloaded -= OnNotificationViewUnloaded;
+
+        var notification = notificationView.DataContext as INotification;
+        if (notification is null)
+        {
+            var notificationViewModel = notificationView.DataContext as NotificationViewModel 
+                                        ?? notificationView.ViewModel as NotificationViewModel;
+
+            if (notificationViewModel is not null)
             {
-                return;
-            }
-
-            notificationView.Unloaded -= OnNotificationViewUnloaded;
-
-            var notification = notificationView.DataContext as INotification;
-            if (notification is null)
-            {
-                var notificationViewModel = notificationView.DataContext as NotificationViewModel;
-                if (notificationViewModel is null)
-                {
-                    notificationViewModel = notificationView.ViewModel as NotificationViewModel;
-                }
-
-                if (notificationViewModel is not null)
-                {
-                    notification = notificationViewModel.Notification;
-                }
-            }
-
-            if (notification is not null)
-            {
-                CurrentNotifications.Remove(notification);
-
-                ClosedNotification?.Invoke(this, new NotificationEventArgs(notification));
+                notification = notificationViewModel.Notification;
             }
         }
+
+        if (notification is null)
+        {
+            return;
+        }
+
+        CurrentNotifications.Remove(notification);
+
+        ClosedNotification?.Invoke(this, new NotificationEventArgs(notification));
     }
 }

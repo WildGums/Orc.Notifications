@@ -1,9 +1,8 @@
-﻿namespace Orc.Notifications
-{
-    using System.Drawing;
+﻿namespace Orc.Notifications;
 
-    public interface INotificationPositionService
-    {
-        Point GetLeftTopCorner(Size notificationSize, int numberOfNotifications);
-    }
+using System.Drawing;
+
+public interface INotificationPositionService
+{
+    Point GetLeftTopCorner(Size notificationSize, int numberOfNotifications);
 }

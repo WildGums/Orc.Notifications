@@ -1,13 +1,9 @@
-﻿namespace Orc.SupportPackage.Example.Views
+﻿namespace Orc.SupportPackage.Example.Views;
+
+public partial class MainView
 {
-    /// <summary>
-    /// Interaction logic for MainView.xaml
-    /// </summary>
-    public partial class MainView
+    public MainView()
     {
-        public MainView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

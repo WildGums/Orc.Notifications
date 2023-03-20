@@ -1,13 +1,12 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+public enum NotificationLevel
 {
-    public enum NotificationLevel
-    {
-        Info = 1,
+    Info = 1,
 
-        Warning = 2,
+    Warning = 2,
 
-        Error = 3,
+    Error = 3,
 
-        Normal = Info
-    }
+    Normal = Info
 }

@@ -1,24 +1,23 @@
-﻿namespace Orc.Notifications
+﻿namespace Orc.Notifications;
+
+using System;
+using System.Windows.Media;
+
+public class WarningNotification : Notification
 {
-    using System;
-    using System.Windows.Media;
+    private static readonly SolidColorBrush DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 242, 155, 84));
 
-    public class WarningNotification : Notification
+    static WarningNotification()
     {
-        private static readonly SolidColorBrush DefaultBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 242, 155, 84));
+        DefaultBackgroundBrush.Freeze();
+    }
 
-        static WarningNotification()
-        {
-            DefaultBackgroundBrush.Freeze();
-        }
-
-        public WarningNotification()
-        {
-            ShowTime = TimeSpan.FromSeconds(5);
-            Priority = NotificationPriority.High;
-            Level = NotificationLevel.Warning;
-            BorderBrush = Brushes.Orange;
-            BackgroundBrush = DefaultBackgroundBrush;
-        }
+    public WarningNotification()
+    {
+        ShowTime = TimeSpan.FromSeconds(5);
+        Priority = NotificationPriority.High;
+        Level = NotificationLevel.Warning;
+        BorderBrush = Brushes.Orange;
+        BackgroundBrush = DefaultBackgroundBrush;
     }
 }
