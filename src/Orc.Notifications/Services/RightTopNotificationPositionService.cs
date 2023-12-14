@@ -1,38 +1,26 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RightTopNotificationPositionService.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Notifications;
 
+using System.Drawing;
 
-namespace Orc.Notifications
+public class RightTopNotificationPositionService : INotificationPositionService
 {
-    using System.Drawing;
+    private const int Margin = 15;
 
-    public class RightTopNotificationPositionService : INotificationPositionService
+    public virtual Point GetLeftTopCorner(Size notificationSize, int numberOfNotifications)
     {
-        private const int Margin = 15;
+        var workArea = System.Windows.SystemParameters.WorkArea;
 
-        public RightTopNotificationPositionService()
+        var top = workArea.Top + Margin;
+        var right = workArea.Right - Margin;
+
+        for (var i = 0; i < numberOfNotifications; i++)
         {
+            top += notificationSize.Height;
+            top += Margin;
         }
 
-        public virtual Point GetLeftTopCorner(Size notificationSize, int numberOfNotifications)
-        {
-            var workArea = System.Windows.SystemParameters.WorkArea;
+        var left = right - notificationSize.Width;
 
-            var top = workArea.Top + Margin;
-            var right = workArea.Right - Margin;
-
-            for (var i = 0; i < numberOfNotifications; i++)
-            {
-                top += notificationSize.Height;
-                top += Margin;
-            }
-
-            var left = right - notificationSize.Width;
-
-            return new Point((int)left, (int)top);
-        }
+        return new Point((int)left, (int)top);
     }
 }

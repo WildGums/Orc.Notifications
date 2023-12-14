@@ -1,0 +1,148 @@
+﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v8.0", FrameworkDisplayName=".NET 8.0")]
+[assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.wildgums.com/orc/notifications", "Orc.Notifications")]
+[assembly: System.Windows.Markup.XmlnsPrefix("http://schemas.wildgums.com/orc/notifications", "orcnotifications")]
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
+public static class LoadAssembliesOnStartup { }
+public static class ModuleInitializer
+{
+    public static void Initialize() { }
+}
+namespace Orc.Notifications
+{
+    public class ErrorNotification : Orc.Notifications.Notification
+    {
+        public ErrorNotification() { }
+    }
+    public interface INotification
+    {
+        System.Windows.Media.SolidColorBrush? BackgroundBrush { get; set; }
+        System.Windows.Media.SolidColorBrush? BorderBrush { get; set; }
+        System.Windows.Input.ICommand? Command { get; set; }
+        System.Windows.Media.SolidColorBrush? FontBrush { get; set; }
+        bool IsClosable { get; set; }
+        string Message { get; set; }
+        Orc.Notifications.NotificationPriority Priority { get; set; }
+        System.TimeSpan ShowTime { get; set; }
+        string Title { get; set; }
+    }
+    public interface INotificationPositionService
+    {
+        System.Drawing.Point GetLeftTopCorner(System.Drawing.Size notificationSize, int numberOfNotifications);
+    }
+    public interface INotificationService
+    {
+        System.Collections.ObjectModel.ObservableCollection<Orc.Notifications.INotification> CurrentNotifications { get; }
+        System.Windows.Media.SolidColorBrush DefaultBackgroundBrush { get; set; }
+        System.Windows.Media.SolidColorBrush DefaultBorderBrush { get; set; }
+        System.Windows.Media.SolidColorBrush DefaultFontBrush { get; set; }
+        bool IsSuspended { get; }
+        event System.EventHandler<Orc.Notifications.NotificationEventArgs>? ClosedNotification;
+        event System.EventHandler<Orc.Notifications.NotificationEventArgs>? OpenedNotification;
+        void Resume();
+        void ShowNotification(Orc.Notifications.INotification notification);
+        void Suspend();
+    }
+    public static class INotificationServiceExtensions
+    {
+        public static void ShowErrorNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
+        public static void ShowNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
+        public static void ShowWarningNotification(this Orc.Notifications.INotificationService notificationService, string title, string message) { }
+    }
+    public class Notification : Orc.Notifications.INotification
+    {
+        public Notification() { }
+        public System.Windows.Media.SolidColorBrush? BackgroundBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush? BorderBrush { get; set; }
+        public System.Windows.Input.ICommand? Command { get; set; }
+        public System.Windows.Media.SolidColorBrush? FontBrush { get; set; }
+        public int Id { get; }
+        public bool IsClosable { get; set; }
+        public Orc.Notifications.NotificationLevel Level { get; set; }
+        public string Message { get; set; }
+        public Orc.Notifications.NotificationPriority Priority { get; set; }
+        public System.TimeSpan ShowTime { get; set; }
+        public string Title { get; set; }
+        public override string ToString() { }
+    }
+    public class NotificationBorderBrushConverter : Catel.MVVM.Converters.ValueConverterBase<Orc.Notifications.INotification>
+    {
+        public NotificationBorderBrushConverter() { }
+        protected override object? Convert(Orc.Notifications.INotification? value, System.Type targetType, object? parameter) { }
+    }
+    public class NotificationEventArgs : System.EventArgs
+    {
+        public NotificationEventArgs(Orc.Notifications.INotification notification) { }
+        public Orc.Notifications.INotification Notification { get; }
+    }
+    public enum NotificationLevel
+    {
+        Info = 1,
+        Warning = 2,
+        Error = 3,
+        Normal = 1,
+    }
+    public enum NotificationPriority
+    {
+        Low = 0,
+        Normal = 1,
+        High = 2,
+        Critical = 3,
+    }
+    public class NotificationService : Orc.Notifications.INotificationService
+    {
+        public NotificationService(Catel.MVVM.IViewModelFactory viewModelFactory, Catel.Services.IDispatcherService dispatcherService, Orc.Notifications.INotificationPositionService notificationPositionService) { }
+        public System.Collections.ObjectModel.ObservableCollection<Orc.Notifications.INotification> CurrentNotifications { get; }
+        public System.Windows.Media.SolidColorBrush DefaultBackgroundBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush DefaultBorderBrush { get; set; }
+        public System.Windows.Media.SolidColorBrush DefaultFontBrush { get; set; }
+        public bool IsSuspended { get; }
+        public event System.EventHandler<Orc.Notifications.NotificationEventArgs>? ClosedNotification;
+        public event System.EventHandler<Orc.Notifications.NotificationEventArgs>? OpenedNotification;
+        protected virtual bool HasActiveWindows() { }
+        public void Resume() { }
+        public void ShowNotification(Orc.Notifications.INotification notification) { }
+        public void Suspend() { }
+    }
+    public static class NotificationSize
+    {
+        public const int Height = 68;
+        public const int Width = 380;
+    }
+    public class NotificationView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
+    {
+        public NotificationView() { }
+        public NotificationView(Orc.Notifications.NotificationViewModel? viewModel) { }
+        public void InitializeComponent() { }
+        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e) { }
+    }
+    public class NotificationViewModel : Catel.MVVM.ViewModelBase
+    {
+        public NotificationViewModel(Orc.Notifications.INotification notification, Orc.Notifications.INotificationService notificationService) { }
+        public System.Windows.Media.Imaging.BitmapSource? AppIcon { get; }
+        public System.Windows.Media.SolidColorBrush? BackgroundBrush { get; }
+        public System.Windows.Media.SolidColorBrush? BorderBrush { get; }
+        public Catel.MVVM.TaskCommand ClosePopup { get; }
+        public System.Windows.Input.ICommand? Command { get; }
+        public System.Windows.Media.SolidColorBrush? FontBrush { get; }
+        public bool IsClosable { get; }
+        public string Message { get; }
+        public Orc.Notifications.INotification Notification { get; }
+        public Catel.MVVM.Command PauseTimer { get; }
+        public Catel.MVVM.Command ResumeTimer { get; }
+        public System.TimeSpan ShowTime { get; }
+        public override string Title { get; }
+        protected override System.Threading.Tasks.Task CloseAsync() { }
+        protected override System.Threading.Tasks.Task InitializeAsync() { }
+        protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
+    }
+    public class RightTopNotificationPositionService : Orc.Notifications.INotificationPositionService
+    {
+        public RightTopNotificationPositionService() { }
+        public virtual System.Drawing.Point GetLeftTopCorner(System.Drawing.Size notificationSize, int numberOfNotifications) { }
+    }
+    public class WarningNotification : Orc.Notifications.Notification
+    {
+        public WarningNotification() { }
+    }
+}
