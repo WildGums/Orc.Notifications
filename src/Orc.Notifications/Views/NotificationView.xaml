@@ -5,6 +5,7 @@
                    xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
                    xmlns:system="clr-namespace:System;assembly=mscorlib"
                    xmlns:local="clr-namespace:Orc.Notifications"
+                   xmlns:orctheming="http://schemas.wildgums.com/orc/theming"
                    x:Name="NotificationWindow">
 
     <UserControl.Resources>
@@ -107,7 +108,7 @@
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
                                Text="{Binding Title}"
-                               FontSize="14"
+                               FontSize="{orctheming:FontSize 14}"
                                FontWeight="Medium"
                                Foreground="{Binding FontBrush}"
                                Margin="0 10 10 0"
