@@ -16,7 +16,8 @@ public class NotificationViewModel : ViewModelBase
     private DispatcherTimer? _dispatcherTimer;
     private readonly Assembly _entryAssembly = AssemblyHelper.GetRequiredEntryAssembly();
 
-    public NotificationViewModel(INotification notification, INotificationService notificationService)
+    public NotificationViewModel(IServiceProvider serviceProvider, 
+        INotification notification, INotificationService notificationService)
     {
         ArgumentNullException.ThrowIfNull(notification);
 
@@ -31,9 +32,9 @@ public class NotificationViewModel : ViewModelBase
         FontBrush = notification.FontBrush ?? notificationService.DefaultFontBrush;
         AppIcon = ExtractLargestIcon();
 
-        PauseTimer = new Command(OnPauseTimerExecute);
-        ResumeTimer = new Command(OnResumeTimerExecute);
-        ClosePopup = new TaskCommand(OnClosePopupExecuteAsync);
+        PauseTimer = new Command(serviceProvider, OnPauseTimerExecute);
+        ResumeTimer = new Command(serviceProvider, OnResumeTimerExecute);
+        ClosePopup = new TaskCommand(serviceProvider, OnClosePopupExecuteAsync);
 
         // Validation makes no sense on notifications
         AutomaticallyValidateOnPropertyChanged = false;
