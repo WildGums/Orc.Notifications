@@ -10,7 +10,7 @@
     /// </summary>
     public static class OrcNotificationsModule
     {
-        public static IServiceCollection AddOrcFileSystemServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddOrcNotificationsServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.TryAddSingleton<INotificationService, NotificationService>();
             serviceCollection.TryAddSingleton<INotificationPositionService, RightTopNotificationPositionService>();
