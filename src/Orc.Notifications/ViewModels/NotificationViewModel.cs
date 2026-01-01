@@ -18,6 +18,7 @@ public class NotificationViewModel : ViewModelBase
 
     public NotificationViewModel(IServiceProvider serviceProvider, 
         INotification notification, INotificationService notificationService)
+        : base(serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(notification);
 
