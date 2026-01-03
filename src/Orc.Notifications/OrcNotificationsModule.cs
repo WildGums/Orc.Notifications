@@ -1,6 +1,7 @@
 ﻿namespace Orc.Notifications
 {
     using Catel.Services;
+    using Catel.ThirdPartyNotices;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Orc.Notifications;
@@ -16,6 +17,8 @@
             serviceCollection.TryAddSingleton<INotificationPositionService, RightTopNotificationPositionService>();
 
             serviceCollection.AddSingleton<ILanguageSource>(new LanguageResourceSource("Orc.Notifications", "Orc.Notifications.Properties", "Resources"));
+
+            serviceCollection.AddSingleton<IThirdPartyNotice>((x) => new LibraryThirdPartyNotice("Orc.Notifications", "https://github.com/wildgums/orc.notifications"));
 
             return serviceCollection;
         }
