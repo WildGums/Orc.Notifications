@@ -139,10 +139,6 @@ namespace Orc.Notifications
         protected override System.Threading.Tasks.Task InitializeAsync() { }
         protected override void OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) { }
     }
-    public static class OrcNotificationsModule
-    {
-        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcNotifications(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
-    }
     public class RightTopNotificationPositionService : Orc.Notifications.INotificationPositionService
     {
         public RightTopNotificationPositionService() { }
@@ -151,5 +147,12 @@ namespace Orc.Notifications
     public class WarningNotification : Orc.Notifications.Notification
     {
         public WarningNotification() { }
+    }
+}
+namespace Orc
+{
+    public static class OrcNotificationsModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcNotifications(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
     }
 }
