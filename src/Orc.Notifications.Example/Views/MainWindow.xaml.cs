@@ -1,4 +1,4 @@
-﻿namespace Orc.SupportPackage.Example.Views;
+﻿namespace Orc.Notifications.Example.Views;
 
 public partial class MainWindow
 {

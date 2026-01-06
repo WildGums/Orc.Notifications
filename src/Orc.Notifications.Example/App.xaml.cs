@@ -13,6 +13,7 @@ using Orc.Automation;
 using Orc.Controls;
 using Orc.FileSystem;
 using Orc.Notifications;
+using Orc.Notifications.Example.Views;
 using Orc.Serialization.Json;
 using Orc.SupportPackage.Example.Views;
 using Orc.SystemInfo;
