@@ -113,7 +113,6 @@ namespace Orc.Notifications
     public class NotificationView : Catel.Windows.Controls.UserControl, System.Windows.Markup.IComponentConnector
     {
         public NotificationView() { }
-        [Microsoft.Extensions.DependencyInjection.ActivatorUtilitiesConstructor]
         public NotificationView(System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public NotificationView(Catel.MVVM.IViewModel? viewModel, System.IServiceProvider serviceProvider, Catel.Services.IViewModelWrapperService viewModelWrapperService, Catel.MVVM.IDataContextSubscriptionService dataContextSubscriptionService) { }
         public void InitializeComponent() { }
