@@ -1,4 +1,4 @@
-﻿namespace Orc.SupportPackage.Example.ViewModels;
+﻿namespace Orc.Notifications.Example.ViewModels;
 
 using System;
 using System.Collections.Generic;
