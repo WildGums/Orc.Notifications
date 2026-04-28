@@ -10,30 +10,27 @@ using System.Windows.Media;
 using Catel.Logging;
 using Catel.MVVM;
 using Catel.Services;
+using Microsoft.Extensions.Logging;
 using Size = System.Drawing.Size;
 
 public class NotificationService : INotificationService
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
     private static readonly Size NotificationSize = new(Notifications.NotificationSize.Width, Notifications.NotificationSize.Height);
-
+    
+    private readonly ILogger<NotificationService> _logger;
+    private readonly IViewModelFactory _viewModelFactory;
     private readonly IDispatcherService _dispatcherService;
-
     private readonly INotificationPositionService _notificationPositionService;
 
     private readonly Queue<INotification> _notificationsQueue = new();
 
-    private readonly IViewModelFactory _viewModelFactory;
 
     private Window? _mainWindow;
 
-    public NotificationService(IViewModelFactory viewModelFactory, IDispatcherService dispatcherService, INotificationPositionService notificationPositionService)
+    public NotificationService(ILogger<NotificationService> logger, IViewModelFactory viewModelFactory, 
+        IDispatcherService dispatcherService, INotificationPositionService notificationPositionService)
     {
-        ArgumentNullException.ThrowIfNull(viewModelFactory);
-        ArgumentNullException.ThrowIfNull(dispatcherService);
-        ArgumentNullException.ThrowIfNull(notificationPositionService);
-
+        _logger = logger;
         _viewModelFactory = viewModelFactory;
         _dispatcherService = dispatcherService;
         _notificationPositionService = notificationPositionService;
@@ -97,7 +94,7 @@ public class NotificationService : INotificationService
 
         if (IsSuspended)
         {
-            Log.Debug("Notifications are suspended, queueing notification");
+            _logger.LogDebug("Notifications are suspended, queueing notification");
 
             _notificationsQueue.Enqueue(notification);
 
@@ -111,11 +108,11 @@ public class NotificationService : INotificationService
             var hasActiveWindows = HasActiveWindows();
             if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
             {
-                Log.Debug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
+                _logger.LogDebug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
                 return;
             }
 
-            Log.Debug($"Showing notification '{notification}'");
+            _logger.LogDebug($"Showing notification '{notification}'");
 
             var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
 
@@ -142,7 +139,7 @@ public class NotificationService : INotificationService
             var notificationViewModel = _viewModelFactory.CreateRequiredViewModel<NotificationViewModel>(notification);
             notificationViewModel.ClosedAsync += async (_, _) =>
             {
-                Log.Debug($"Hiding notification '{notification}'");
+                _logger.LogDebug($"Hiding notification '{notification}'");
 
                 popup.IsOpen = false;
             };

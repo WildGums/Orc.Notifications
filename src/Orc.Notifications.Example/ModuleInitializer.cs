@@ -1,10 +1,4 @@
-using System.Runtime.CompilerServices;
-using Catel.IoC;
-using Catel.IO;
-using Catel.MVVM;
-
-using Orc.SupportPackage.Example.Views;
-using Orc.SupportPackage.Example.ViewModels;
+﻿using System.Runtime.CompilerServices;
 
 /// <summary>
 /// Used by the ModuleInit. All code inside the Initialize method is ran as soon as the assembly is loaded.
@@ -17,8 +11,6 @@ public static class ModuleInitializer
     [ModuleInitializer]
     public static void Initialize()
     {
-        var serviceLocator = ServiceLocator.Default;
-        var viewModelLocator = serviceLocator.ResolveType<IViewModelLocator>();
-        viewModelLocator.Register(typeof(MainView), typeof(MainViewModel));
+
     }
 }

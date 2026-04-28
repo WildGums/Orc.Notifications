@@ -9,22 +9,21 @@ using Catel.MVVM;
 using Catel.Services;
 using Notifications;
 
-public class MainViewModel : ViewModelBase
+public class MainViewModel : FeaturedViewModelBase
 {
     private readonly IMessageService _messageService;
     private readonly INotificationService _notificationService;
 
-    public MainViewModel(INotificationService notificationService, IMessageService messageService)
+    public MainViewModel(IServiceProvider serviceProvider, INotificationService notificationService,
+        IMessageService messageService)
+        : base(serviceProvider)
     {
-        ArgumentNullException.ThrowIfNull(notificationService);
-        ArgumentNullException.ThrowIfNull(messageService);
-
         _notificationService = notificationService;
         _messageService = messageService;
 
-        ShowErrorNotification = new Command(OnShowErrorNotificationExecute, OnShowNotificationCanExecute);
-        ShowWarningNotification = new Command(OnShowWarningNotificationExecute, OnShowNotificationCanExecute);
-        ShowNotification = new Command(OnShowNotificationExecute, OnShowNotificationCanExecute);
+        ShowErrorNotification = new Command(serviceProvider, OnShowErrorNotificationExecute, OnShowNotificationCanExecute);
+        ShowWarningNotification = new Command(serviceProvider, OnShowWarningNotificationExecute, OnShowNotificationCanExecute);
+        ShowNotification = new Command(serviceProvider, OnShowNotificationExecute, OnShowNotificationCanExecute);
 
         NotificationPriorities = Enum<NotificationPriority>.GetValues();
     }
@@ -73,7 +72,7 @@ public class MainViewModel : ViewModelBase
         {
             Title = NotificationTitle,
             Message = NotificationMessage,
-            Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync("You just clicked a notification")),
             IsClosable = IsClosable,
             Priority = NotificationPriority
         };
@@ -92,7 +91,7 @@ public class MainViewModel : ViewModelBase
         {
             Title = NotificationTitle,
             Message = NotificationMessage,
-            Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync("You just clicked a notification")),
             IsClosable = IsClosable,
             Priority = NotificationPriority
         };
@@ -111,7 +110,7 @@ public class MainViewModel : ViewModelBase
         {
             Title = NotificationTitle,
             Message = NotificationMessage,
-            Command = new TaskCommand(async () => await _messageService.ShowAsync("You just clicked a notification")),
+            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync("You just clicked a notification")),
             IsClosable = IsClosable,
             Priority = NotificationPriority
         };

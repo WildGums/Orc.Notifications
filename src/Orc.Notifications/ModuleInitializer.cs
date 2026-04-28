@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Catel.IoC;
 using Catel.Services;
 using Orc.Notifications;
@@ -14,15 +14,5 @@ public static class ModuleInitializer
     [ModuleInitializer]
     public static void Initialize()
     {
-        var serviceLocator = ServiceLocator.Default;
-
-        serviceLocator.RegisterType<INotificationService, NotificationService>();
-        serviceLocator.RegisterType<INotificationPositionService, RightTopNotificationPositionService>();
-
-        var uiVisualizerService = serviceLocator.ResolveRequiredType<IUIVisualizerService>();
-        uiVisualizerService.Register<NotificationViewModel, NotificationView>();
-
-        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
-        languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Notifications", "Orc.Notifications.Properties", "Resources"));
     }
 }
