@@ -108,11 +108,11 @@ public class NotificationService : INotificationService
             var hasActiveWindows = HasActiveWindows();
             if (!hasActiveWindows && notification.Priority <= NotificationPriority.Normal)
             {
-                _logger.LogDebug($"Not showing notification '{notification}' since priority is '{notification.Priority}' and app has no active windows.");
+                _logger.LogDebug("Not showing notification {Notification} since priority is {Priority} and app has no active windows.", notification, notification.Priority);
                 return;
             }
 
-            _logger.LogDebug($"Showing notification '{notification}'");
+            _logger.LogDebug("Showing notification {Notification}", notification);
 
             var notificationLocation = _notificationPositionService.GetLeftTopCorner(NotificationSize, CurrentNotifications.Count);
 
@@ -139,7 +139,7 @@ public class NotificationService : INotificationService
             var notificationViewModel = _viewModelFactory.CreateRequiredViewModel<NotificationViewModel>(notification);
             notificationViewModel.ClosedAsync += async (_, _) =>
             {
-                _logger.LogDebug($"Hiding notification '{notification}'");
+                _logger.LogDebug("Hiding notification {Notification}", notification);
 
                 popup.IsOpen = false;
             };
