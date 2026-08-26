@@ -11,29 +11,32 @@ using Notifications;
 
 public class MainViewModel : FeaturedViewModelBase
 {
+    private readonly ILanguageService _languageService;
     private readonly IMessageService _messageService;
     private readonly INotificationService _notificationService;
 
     public MainViewModel(IServiceProvider serviceProvider, INotificationService notificationService,
-        IMessageService messageService)
+        IMessageService messageService, ILanguageService languageService)
         : base(serviceProvider)
     {
         _notificationService = notificationService;
         _messageService = messageService;
+        _languageService = languageService;
 
         ShowErrorNotification = new Command(serviceProvider, OnShowErrorNotificationExecute, OnShowNotificationCanExecute);
         ShowWarningNotification = new Command(serviceProvider, OnShowWarningNotificationExecute, OnShowNotificationCanExecute);
         ShowNotification = new Command(serviceProvider, OnShowNotificationExecute, OnShowNotificationCanExecute);
 
         NotificationPriorities = Enum<NotificationPriority>.GetValues();
+
+        NotificationTitle = languageService.GetString("Orc_Notifications_Example_DefaultNotificationTitle") ?? string.Empty;
+        NotificationMessage = languageService.GetString("Orc_Notifications_Example_DefaultNotificationMessage") ?? string.Empty;
     }
 
-    public override string Title => "Orc.Notifications example";
+    public override string Title => _languageService.GetString("Orc_Notifications_Example_WindowTitle") ?? "Orc.Notifications example";
 
-    [DefaultValue("This is an example title")]
     public string NotificationTitle { get; set; }
 
-    [DefaultValue("Showing a message using notifications is really cool")]
     public string NotificationMessage { get; set; }
 
     [DefaultValue(true)] public bool IsClosable { get; set; }
@@ -72,7 +75,7 @@ public class MainViewModel : FeaturedViewModelBase
         {
             Title = NotificationTitle,
             Message = NotificationMessage,
-            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync("You just clicked a notification")),
+            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync(_languageService.GetString("Orc_Notifications_Example_NotificationClickedMessage"))),
             IsClosable = IsClosable,
             Priority = NotificationPriority
         };
@@ -91,7 +94,7 @@ public class MainViewModel : FeaturedViewModelBase
         {
             Title = NotificationTitle,
             Message = NotificationMessage,
-            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync("You just clicked a notification")),
+            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync(_languageService.GetString("Orc_Notifications_Example_NotificationClickedMessage"))),
             IsClosable = IsClosable,
             Priority = NotificationPriority
         };
@@ -110,7 +113,7 @@ public class MainViewModel : FeaturedViewModelBase
         {
             Title = NotificationTitle,
             Message = NotificationMessage,
-            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync("You just clicked a notification")),
+            Command = new TaskCommand(ServiceProvider, async () => await _messageService.ShowAsync(_languageService.GetString("Orc_Notifications_Example_NotificationClickedMessage"))),
             IsClosable = IsClosable,
             Priority = NotificationPriority
         };

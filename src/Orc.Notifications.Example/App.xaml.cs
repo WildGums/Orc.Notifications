@@ -38,6 +38,7 @@ public partial class App
                 services.AddOrcControls();
                 services.AddOrcFileSystem();
                 services.AddOrcNotifications();
+                services.AddSingleton<ILanguageSource>(new LanguageResourceSource("Orc.Notifications.Example", "Orc.Notifications.Example.Properties", "Resources"));
                 services.AddOrcSerializationJson();
                 services.AddOrcSystemInfo();
                 services.AddOrcTheming();
